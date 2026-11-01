@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unidad 2 · Diseño lógico de procesadores | UNEFA</title>
+<style>
+:root{
+  --ink:#10253f;
+  --navy:#0b1f36;
+  --blue:#1e4fa3;
+  --cyan:#11b5c9;
+  --gold:#c9a24b;
+  --gold-light:#f5ebd2;
+  --paper:#f6f8fb;
+  --line:#d5e0ec;
+  --muted:#53667a;
+  --shadow:0 18px 50px #0b1f361f;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#dfe7f1;
+  color:var(--ink);
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+button{font:inherit}
+.app{
+  height:100vh;
+  display:grid;
+  grid-template-columns:64px 1fr;
+  position:relative;
+}
+.rail{
+  background:var(--navy);
+  border-right:2px solid var(--gold);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:14px 0;
+  gap:10px;
+  z-index:20;
+}
+.brand{
+  font-weight:900;
+  font-size:16px;
+  letter-spacing:-.05em;
+  color:var(--gold);
+  margin-bottom:4px;
+}
+.dot{
+  width:32px;
+  height:32px;
+  border:1px solid #ffffff22;
+  border-radius:50%;
+  background:#ffffff12;
+  color:#c9d8e9;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+}
+.dot.active{
+  background:var(--gold);
+  color:var(--navy);
+  border-color:var(--gold);
+  transform:scale(1.1);
+}
+.dot:hover{background:#ffffff28}
+.rail .spacer{flex:1}
+
+.main{
+  position:relative;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.topbar{
+  height:46px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  color:var(--muted);
+  font-size:11.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.topbar strong{color:var(--navy)}
+.actions{display:flex;gap:8px}
+.icon-btn{
+  border:1px solid var(--gold);
+  background:var(--navy);
+  color:var(--gold-light);
+  border-radius:8px;
+  padding:6px 14px;
+  font-size:11.5px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+}
+.icon-btn:hover{background:#163254;transform:translateY(-1px)}
+
+.stage{
+  flex:1;
+  min-height:0;
+  padding:2px 28px 32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.slide{
+  display:none;
+  width:100%;
+  max-width:1320px;
+  height:100%;
+  max-height:680px;
+  background:var(--paper);
+  border:1px solid #cfdbe8;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+  padding:24px 36px;
+  flex-direction:column;
+}
+.slide.active{
+  display:flex;
+  animation:enter .38s cubic-bezier(.18,.8,.24,1);
+}
+@keyframes enter{
+  from{opacity:0;transform:translateY(8px) scale(.992)}
+  to{opacity:1;transform:none}
+}
+.slide:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:linear-gradient(90deg,#1e4fa307 1px,transparent 1px),linear-gradient(#1e4fa307 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:linear-gradient(130deg,black,transparent 78%);
+}
+.header-box{
+  flex-shrink:0;
+  margin-bottom:12px;
+  position:relative;
+  z-index:2;
+}
+.eyebrow{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  color:var(--blue);
+  text-transform:uppercase;
+}
+.title{
+  font-size:clamp(26px,2.5vw,36px);
+  line-height:1.08;
+  letter-spacing:-.03em;
+  color:var(--navy);
+  margin:4px 0 4px;
+}
+.sub{
+  color:var(--muted);
+  font-size:14px;
+  margin:0;
+}
+.content{
+  flex:1;
+  min-height:0;
+  position:relative;
+  z-index:2;
+  display:grid;
+  gap:12px;
+}
+
+/* PORTADA */
+.cover{background:var(--paper);padding:0}
+.cover .hero{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 78% 24%,#c9a24b22 0 14%,transparent 34%),
+    linear-gradient(122deg,#f6f8fb 0 56%,#0b1f36 56%);
+  padding:5% 6%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.cover .hero:after{
+  content:"";
+  position:absolute;
+  right:7%;
+  top:12%;
+  width:260px;
+  height:260px;
+  border:2px solid #c9a24b66;
+  border-radius:50%;
+  box-shadow:0 0 0 28px #ffffff08,0 0 0 56px #c9a24b12;
+}
+.cover .hero h1{
+  font-size:clamp(42px,4.8vw,72px);
+  line-height:.95;
+  letter-spacing:-.05em;
+  max-width:640px;
+  color:var(--navy);
+  margin:14px 0 12px;
+}
+.cover .hero .subtitle-cover{
+  font-size:clamp(16px,1.6vw,21px);
+  color:var(--blue);
+  font-weight:700;
+  max-width:560px;
+  margin:0 0 20px;
+}
+.cover .hero .edition{
+  font-size:12.5px;
+  color:var(--muted);
+  letter-spacing:.12em;
+  font-weight:800;
+}
+.chip-art{
+  position:absolute;
+  right:11.5%;
+  top:21%;
+  width:146px;
+  height:146px;
+  border:2px solid var(--gold);
+  border-radius:22px;
+  background:#102b4b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:3;
+  box-shadow:0 12px 35px #00000040;
+}
+.chip-core{
+  width:82px;
+  height:82px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),#a67c1e);
+  color:var(--navy);
+  font-weight:900;
+  font-size:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  letter-spacing:.06em;
+}
+.cover .people{
+  position:absolute;
+  right:6%;
+  bottom:8%;
+  z-index:4;
+  color:#fff;
+  text-align:right;
+  border-right:3px solid var(--gold);
+  padding-right:16px;
+}
+.cover .people b{
+  display:block;
+  font-size:12px;
+  letter-spacing:.14em;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.cover .people span{
+  display:block;
+  font-size:15px;
+  line-height:1.6;
+}
+.cover .teacher{
+  position:absolute;
+  left:6%;
+  bottom:8%;
+  font-size:14px;
+  color:var(--navy);
+  font-weight:800;
+  z-index:4;
+  border-left:4px solid var(--gold);
+  padding-left:12px;
+}
+
+/* TARJETAS Y SUPERFICIES */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.choice{
+  border:1px solid var(--line);
+  border-top:3px solid var(--navy);
+  background:#fff;
+  border-radius:14px;
+  padding:14px 18px;
+  text-align:left;
+  cursor:pointer;
+  transition:.2s;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.choice:hover,.choice.selected{
+  transform:translateY(-2px);
+  border-color:var(--gold);
+  border-top:3px solid var(--gold);
+  box-shadow:0 10px 24px #0b1f3614;
+  background:#fffdf8;
+}
+.choice .num{
+  display:inline-block;
+  width:fit-content;
+  font-size:10.5px;
+  color:var(--navy);
+  font-weight:900;
+  background:var(--gold-light);
+  padding:3px 9px;
+  border-radius:6px;
+}
+.choice h3{margin:8px 0 4px;font-size:20px;color:var(--navy)}
+.choice p{color:var(--muted);font-size:13.5px;line-height:1.35;margin:0}
+
+.feature-spot{
+  background:var(--navy);
+  border:2px solid var(--gold);
+  border-radius:16px;
+  padding:18px 24px;
+  color:white;
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:20px;
+  align-items:center;
+}
+.feature-spot h4{
+  margin:0 0 6px;
+  color:var(--gold);
+  font-size:18px;
+  letter-spacing:.02em;
+}
+.feature-spot p{
+  margin:0;
+  font-size:15px;
+  line-height:1.48;
+  color:#e2ecf7;
+}
+.feature-meta{
+  background:#ffffff12;
+  border:1px solid #ffffff24;
+  border-left:4px solid var(--cyan);
+  border-radius:12px;
+  padding:12px 16px;
+}
+.feature-meta small{
+  display:block;
+  font-size:10.5px;
+  font-weight:800;
+  letter-spacing:.1em;
+  color:var(--gold-light);
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.feature-meta strong{
+  display:block;
+  font-family:ui-monospace,monospace;
+  font-size:14.5px;
+  color:#fff;
+  line-height:1.4;
+}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+.surface{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:3px solid var(--navy);
+  border-radius:14px;
+  padding:16px 22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.surface.gold-top{border-top-color:var(--gold)}
+.surface h3{
+  margin:0 0 8px;
+  color:var(--blue);
+  font-size:12.5px;
+  font-weight:900;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.surface p,.surface li{font-size:14.5px;line-height:1.48;margin:4px 0;color:var(--ink)}
+.surface ul{margin:4px 0;padding-left:18px}
+
+/* FLUJO Y PIPELINE (SLIDE 3) */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.flow span{
+  text-align:center;
+  padding:12px 8px;
+  border-radius:12px;
+  background:var(--navy);
+  border:1px solid #ffffff22;
+  border-bottom:3px solid var(--gold);
+  color:white;
+  font-weight:900;
+  font-size:15px;
+  position:relative;
+  cursor:pointer;
+  transition:.2s;
+}
+.flow span:hover,.flow span.active-stage{
+  background:var(--blue);
+  border-color:var(--gold);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px #1e4fa333;
+}
+.flow span small{display:block;font-weight:600;color:var(--gold-light);font-size:11.5px;margin-top:2px}
+
+.pipe-matrix{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  text-align:center;
+  background:#fff;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  margin:6px 0;
+}
+.pipe-matrix th{background:var(--navy);color:var(--gold-light);padding:8px;font-size:11.5px}
+.pipe-matrix td{padding:7px;border:1px solid #e5edf6;font-weight:800;color:var(--muted)}
+.pipe-matrix td.st-if{background:#e6f0ff;color:var(--blue)}
+.pipe-matrix td.st-id{background:#d8f3f7;color:#0b6b78}
+.pipe-matrix td.st-ex{background:var(--gold-light);color:#7a5a10}
+.pipe-matrix td.st-mem{background:#e3e8f0;color:var(--navy)}
+.pipe-matrix td.st-wb{background:#d9f2e6;color:#0c6b43}
+
+/* REGISTROS (SLIDE 4) */
+.equiv-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-top:6px;
+}
+.eq-card{
+  background:#f6f9fd;
+  border:1px solid var(--line);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  padding:10px 12px;
+}
+.eq-card b{display:block;font-family:ui-monospace,monospace;font-size:14px;color:var(--navy)}
+.eq-card span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+
+/* ALU INTERNA (SLIDE 5) */
+.alu-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:stretch}
+.alu-board{
+  background:var(--navy);
+  border:2px solid var(--gold);
+  border-radius:16px;
+  padding:22px 26px;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.alu-board:before{
+  content:"";
+  position:absolute;
+  inset:14px;
+  border:1px solid #ffffff14;
+  border-radius:12px;
+  background:linear-gradient(90deg,transparent 49%,#ffffff08 50%,transparent 51%),linear-gradient(transparent 49%,#ffffff08 50%,transparent 51%);
+  background-size:36px 36px;
+}
+.alu-node{
+  position:relative;
+  z-index:2;
+  border:1px solid #ffffff40;
+  border-radius:12px;
+  padding:16px 18px;
+  text-align:center;
+  background:#ffffff12;
+  font-weight:800;
+  font-size:15px;
+  cursor:pointer;
+  transition:.2s;
+}
+.alu-node.active,.alu-node:hover{
+  background:#c9a24b38;
+  border-color:var(--gold);
+  color:#fff;
+  transform:scale(1.03);
+}
+.alu-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.alu-row .wire{
+  height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--cyan));
+  flex:1;
+}
+.alu-out{
+  border-top:1px solid #ffffff28;
+  padding-top:12px;
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  font-weight:700;
+  color:var(--gold-light);
+  position:relative;
+  z-index:2;
+}
+.info-panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:4px solid var(--gold);
+  border-radius:16px;
+  padding:22px 26px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.info-panel h3{font-size:24px;color:var(--navy);margin:0 0 8px}
+.info-panel p{font-size:15px;color:var(--ink);line-height:1.5;margin:0}
+.formula{
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  color:var(--navy);
+  font-size:15.5px;
+  font-weight:800;
+  background:var(--gold-light);
+  border-left:4px solid var(--gold);
+  border-radius:10px;
+  padding:14px 16px;
+}
+
+/* TABLA IZQUIERDA + TARJETA DERECHA (SLIDE 6 Y SLIDE 10) */
+.master-detail{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:16px;
+  align-items:stretch;
+  min-height:0;
+}
+.left-table-col{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:0;
+}
+.filters{display:flex;gap:8px;flex-shrink:0}
+.filter{
+  border:1px solid var(--line);
+  background:white;
+  border-radius:8px;
+  padding:7px 14px;
+  font-size:12.5px;
+  font-weight:800;
+  color:var(--muted);
+  cursor:pointer;
+  transition:.2s;
+}
+.filter.active{
+  background:var(--navy);
+  border-color:var(--gold);
+  color:var(--gold-light);
+}
+.table-wrap{
+  flex:1;
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+}
+.func-table,.case-table{
+  width:100%;
+  height:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+.func-table th,.case-table th{
+  background:var(--navy);
+  color:var(--gold-light);
+  text-align:left;
+  padding:8px 12px;
+  font-size:11.5px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.func-table td{padding:6px 12px;border-bottom:1px solid #e9eef4}
+.case-table td{padding:11px 12px;border-bottom:1px solid #e9eef4;font-family:ui-monospace,monospace;font-size:13.5px}
+.case-table td:nth-child(3){font-family:Inter,Segoe UI,sans-serif;font-weight:700;color:var(--navy)}
+.func-table tbody tr,.case-table tbody tr{cursor:pointer;transition:.15s}
+.func-table tbody tr:hover,.case-table tbody tr:hover{background:#f2f6fc}
+.func-table tbody tr.selected-row,.case-table tbody tr.active-case{
+  background:var(--gold-light);
+  font-weight:800;
+}
+.func-table tr[data-family="logic"] td:last-child{color:#0b6b78;font-weight:800}
+.func-table tr[data-family="arith"] td:last-child{color:var(--blue);font-weight:800}
+
+.result-card{
+  background:var(--navy);
+  border:2px solid var(--gold);
+  border-radius:16px;
+  color:white;
+  padding:22px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.result-card h3{color:var(--gold);margin:0;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.result-card .answer{
+  font-size:32px;
+  font-family:ui-monospace,monospace;
+  font-weight:900;
+  color:white;
+  margin:6px 0;
+}
+.flag-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0}
+.f-badge{
+  background:#ffffff14;
+  border:1px solid #ffffff28;
+  border-radius:8px;
+  padding:8px 4px;
+  text-align:center;
+  font-family:ui-monospace,monospace;
+  font-size:13.5px;
+  font-weight:800;
+}
+.f-badge.on{background:#c9a24b38;border-color:var(--gold);color:var(--gold-light)}
+.result-card .exp-box{
+  font-size:13.5px;
+  line-height:1.48;
+  color:#e2ecf7;
+  background:#ffffff12;
+  padding:14px 16px;
+  border-radius:10px;
+  border-left:4px solid var(--cyan);
+}
+
+/* FLAGS (SLIDE 7) */
+.flags{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.flag{
+  border:1px solid var(--line);
+  border-top:3px solid var(--navy);
+  background:white;
+  border-radius:14px;
+  padding:14px 12px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+.flag:hover,.flag.active{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px #0b1f3614;
+  border-color:var(--gold);
+  border-top-color:var(--gold);
+  background:#fffdf8;
+}
+.flag .symbol{font-size:32px;font-weight:900;color:var(--blue);line-height:1.05}
+.flag strong{display:block;color:var(--navy);font-size:13.5px;margin:4px 0 2px}
+.flag small{color:var(--muted);font-size:12px}
+
+/* TRAZA RTL (SLIDE 8) */
+.timeline{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.step{
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--navy);
+  padding:12px 4px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:14px;
+  cursor:pointer;
+  transition:.2s;
+}
+.step small{display:block;font-size:10.5px;font-weight:600;color:var(--muted);margin-top:2px}
+.step.active{
+  background:var(--navy);
+  border-color:var(--gold);
+  color:var(--gold-light);
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px #0b1f3628;
+}
+.step.active small{color:var(--cyan)}
+.reg-strip{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+}
+.reg-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:3px solid var(--navy);
+  border-radius:10px;
+  padding:10px 8px;
+  text-align:center;
+}
+.reg-box small{display:block;font-size:10.5px;font-weight:800;color:var(--muted);margin-bottom:3px}
+.reg-box strong{font-family:ui-monospace,monospace;font-size:13.5px;color:var(--navy)}
+
+/* SHIFTER + AC (SLIDE 9) */
+.binary{
+  font-family:ui-monospace,monospace;
+  letter-spacing:.06em;
+  font-size:22px;
+  font-weight:900;
+  color:var(--blue);
+  background:#eef4fc;
+  padding:8px 12px;
+  border-radius:8px;
+  margin:6px 0;
+}
+.mini-btns{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+.mini-btn{
+  border:1px solid var(--line);
+  background:#f6f8fb;
+  color:var(--navy);
+  padding:6px 11px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.mini-btn.active,.mini-btn:hover{background:var(--navy);color:var(--gold-light);border-color:var(--gold)}
+
+/* CIERRE MAGISTRAL (SLIDE 11) */
+.closing-card{
+  background:var(--navy);
+  border:2px solid var(--gold);
+  border-radius:18px;
+  padding:38px 46px;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:18px;
+  height:100%;
+}
+.closing-card h3{
+  color:var(--gold);
+  font-size:26px;
+  margin:0;
+}
+.closing-card p{
+  font-size:18px;
+  line-height:1.68;
+  color:#e6eef8;
+  margin:0;
+}
+
+.bottom{
+  position:absolute;
+  left:28px;
+  right:28px;
+  bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  color:var(--muted);
+  font-size:11px;
+  z-index:30;
+}
+.bar{height:4px;background:#ccd9e7;flex:1;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--navy),var(--gold));width:10%;transition:.35s}
+.time{font-weight:800;color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="rail" aria-label="Navegación de diapositivas">
+  <div class="brand">U2</div>
+  <button class="dot active" data-go="0">01</button>
+  <button class="dot" data-go="1">02</button>
+  <button class="dot" data-go="2">03</button>
+  <button class="dot" data-go="3">04</button>
+  <button class="dot" data-go="4">05</button>
+  <button class="dot" data-go="5">06</button>
+  <button class="dot" data-go="6">07</button>
+  <button class="dot" data-go="7">08</button>
+  <button class="dot" data-go="8">09</button>
+  <button class="dot" data-go="9">10</button>
+  <button class="dot" data-go="10">11</button>
+  <div class="spacer"></div>
+</nav>
+
+<main class="main">
+  <header class="topbar">
+    <span><strong>UNEFA San Cristóbal</strong> / Arquitectura del Computador · Unidad 2</span>
+    <div class="actions">
+      <button class="icon-btn" id="full">⛶ Pantalla completa</button>
+    </div>
+  </header>
+
+  <div class="stage">
+    <!-- LÁMINA 01: PORTADA -->
+    <section class="slide active cover">
+      <div class="hero">
+        <div class="eyebrow">UNIDAD 2 · EXPOSICIÓN DE ARQUITECTURA DEL COMPUTADOR</div>
+        <div class="edition">INGENIERÍA DE SISTEMAS · VI SEMESTRE · SECCIÓN 06S-2621-D1</div>
+        <h1>Diseño lógico<br>de procesadores</h1>
+        <p class="subtitle-cover">2.1. Organización del procesador y la Unidad Aritmético-Lógica (ALU)</p>
+        <div class="chip-art" aria-label="Ilustración de un chip procesador">
+          <div class="chip-core">CPU</div>
+        </div>
+        <div class="people">
+          <b>INTEGRANTES</b>
+          <span>Gabriel Oni Colina Romero · V-31.619.791</span>
+          <span>Miguel Alejandro Ortiz Ortiz · V-31.097.869</span>
+          <span>Yilbert Gabriel Torres García · V-30.991.998</span>
+        </div>
+        <div class="teacher">Docente: Ing. Hervilt Zambrano</div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 02: TRES NIVELES -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">01 / MODELO JERÁRQUICO (TANENBAUM, 1992; HENNESSY & PATTERSON, 1995)</div>
+        <h2 class="title">Tres niveles para comprender un CPU</h2>
+        <p class="sub">Selecciona cada nivel (clic o teclas 1, 2, 3) para proyectar su alcance, pregunta clave y ejemplo en el panel central.</p>
+      </div>
+      <div class="content" style="grid-template-rows:auto 1fr 1fr">
+        <div class="grid3">
+          <button class="choice selected" data-lvl="0">
+            <span class="num">NIVEL 01</span>
+            <h3>Arquitectura (ISA)</h3>
+            <p>Interfaz Hardware/Software · Qué hace el CPU</p>
+          </button>
+          <button class="choice" data-lvl="1">
+            <span class="num">NIVEL 02</span>
+            <h3>Organización</h3>
+            <p>Microarquitectura · Cómo se conectan las unidades</p>
+          </button>
+          <button class="choice" data-lvl="2">
+            <span class="num">NIVEL 03</span>
+            <h3>Diseño lógico</h3>
+            <p>Circuitos digitales · Compuertas y biestables</p>
+          </button>
+        </div>
+
+        <div class="feature-spot" id="lvl-spot">
+          <div>
+            <h4>1. Arquitectura del Conjunto de Instrucciones (ISA)</h4>
+            <p>Define los atributos del procesador visibles al programador de bajo nivel o compilador: repertorio de instrucciones, tipos de datos, registros direccionables y modos de acceso a memoria.</p>
+          </div>
+          <div class="feature-meta">
+            <small>PREGUNTA Y EJEMPLO CLAVE</small>
+            <strong>¿Qué operaciones reconoce el CPU?<br>Ej: Instrucción ADD R1, R2 y su efecto sobre el registro destino.</strong>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="surface">
+            <h3>SUBSISTEMA 1: CAMINO DE DATOS (DATAPATH)</h3>
+            <div class="binary">REGISTROS → BUS INTERNO → ALU</div>
+            <p>Es el <b>"músculo operativo"</b> del procesador: agrupa los registros, multiplexores, la ALU y los buses internos que almacenan, transportan y transforman los operandos binarios.</p>
+          </div>
+          <div class="surface gold-top">
+            <h3>SUBSISTEMA 2: UNIDAD DE CONTROL + LENGUAJE RTL</h3>
+            <div class="binary">P : R2 ← R1 &nbsp; | &nbsp; R3 ← R1 + R2</div>
+            <p>Es el <b>"cerebro secuenciador"</b>: decodifica la instrucción y emite las señales de reloj que habilitan las microoperaciones de transferencia entre registros (notación RTL de Morris Mano).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 03: CICLO Y PIPELINE -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">02 / DINÁMICA DE EJECUCIÓN (STALLINGS, 2004; HENNESSY & PATTERSON, 1995)</div>
+        <h2 class="title">Ciclo de instrucción, buses y Pipeline</h2>
+        <p class="sub">Haz clic en cada fase del ciclo para inspeccionar las operaciones e interconexiones que intervienen.</p>
+      </div>
+      <div class="content" style="grid-template-rows:auto auto 1fr">
+        <div class="flow">
+          <span class="stage-btn active-stage" data-st="0">1. IF<small>Fetch (Búsqueda)</small></span>
+          <span class="stage-btn" data-st="1">2. ID<small>Decode (Decodificar)</small></span>
+          <span class="stage-btn" data-st="2">3. EX<small>Execute (Ejecución)</small></span>
+          <span class="stage-btn" data-st="3">4. MEM<small>Memory (Memoria)</small></span>
+          <span class="stage-btn" data-st="4">5. WB<small>Write Back (Escritura)</small></span>
+        </div>
+
+        <div class="feature-spot" id="stage-spot">
+          <div>
+            <h4>Etapa 1 · IF (Instruction Fetch / Búsqueda)</h4>
+            <p>El procesador obtiene la próxima instrucción desde la memoria RAM usando la dirección contenida en el Contador de Programa (PC), la carga en el registro IR e incrementa automáticamente el PC.</p>
+          </div>
+          <div class="feature-meta">
+            <small>REGISTROS Y MICROOPERACIÓN</small>
+            <strong>MAR ← PC · MBR ← M[MAR]<br>IR ← MBR · PC ← PC + 1</strong>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="surface">
+            <h3>PARALELISMO POR SEGMENTACIÓN (PIPELINE DE 5 ETAPAS)</h3>
+            <table class="pipe-matrix">
+              <thead><tr><th>Instrucción</th><th>Ciclo 1</th><th>Ciclo 2</th><th>Ciclo 3</th><th>Ciclo 4</th><th>Ciclo 5</th><th>Ciclo 6</th></tr></thead>
+              <tbody>
+                <tr><td><b>Instrucción 1</b></td><td class="st-if">IF</td><td class="st-id">ID</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td><td class="st-wb">WB</td><td>—</td></tr>
+                <tr><td><b>Instrucción 2</b></td><td>—</td><td class="st-if">IF</td><td class="st-id">ID</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td><td class="st-wb">WB</td></tr>
+                <tr><td><b>Instrucción 3</b></td><td>—</td><td>—</td><td class="st-if">IF</td><td class="st-id">ID</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td></tr>
+              </tbody>
+            </table>
+            <p style="font-size:13px;color:var(--muted)">Superpone múltiples instrucciones simultáneamente, completando <b>1 instrucción por ciclo</b> en estado estable.</p>
+          </div>
+          <div class="surface gold-top">
+            <h3>DIFERENCIA ENTRE BUS INTERNO Y BUS DEL SISTEMA</h3>
+            <ul>
+              <li><b>Bus Interno del CPU:</b> Canal de comunicación dentro del chip que enlaza el banco de registros con la ALU y la Unidad de Control mediante multiplexores o <i>buffers tri-state</i>.</li>
+              <li><b>Bus del Sistema (Externo):</b> Vías de direcciones, datos y control que conectan al CPU con la memoria RAM y periféricos de E/S (a través de MAR y MBR).</li>
+              <li><b>Riesgos del Pipeline:</b> Estructurales (recursos), de Datos (dependencias) y de Control (saltos).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 04: REGISTROS -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">03 / ALMACENAMIENTO SECUENCIAL INTERNO (STALLINGS, 2004; MANO, 1994)</div>
+        <h2 class="title">Organización y clasificación de registros</h2>
+        <p class="sub">Nivel más alto y veloz de la jerarquía de memoria (acceso en 1 ciclo de reloj), construido mediante flip-flops.</p>
+      </div>
+      <div class="content" style="grid-template-rows:1fr auto">
+        <div class="split">
+          <div class="surface">
+            <h3>1. REGISTROS VISIBLES AL USUARIO (STALLINGS, 2004)</h3>
+            <p style="color:var(--muted);font-size:13.5px">Referenciables por instrucciones de máquina o lenguaje ensamblador para minimizar accesos a la RAM:</p>
+            <ul>
+              <li><b>Uso General (R0, R1, R2...):</b> Conservan operandos y resultados para múltiples operaciones aritméticas y lógicas.</li>
+              <li><b>Datos y Acumulador (AC):</b> En arquitecturas basadas en acumulador (Morris Mano), entrega un operando a la ALU y captura directamente el resultado.</li>
+              <li><b>Direcciones:</b> Registros base, índice de direccionamiento y Puntero de Pila (<b>SP · Stack Pointer</b>).</li>
+              <li><b>Códigos de Condición:</b> Bits de estado leídos por instrucciones de bifurcación condicional.</li>
+            </ul>
+          </div>
+          <div class="surface gold-top">
+            <h3>2. REGISTROS DE CONTROL Y ESTADO</h3>
+            <p style="color:var(--muted);font-size:13.5px">Empleadas por la Unidad de Control y el sistema operativo para gobernar la ejecución del programa:</p>
+            <ul>
+              <li><b>PC (Program Counter):</b> Almacena la dirección de memoria de la siguiente instrucción que debe captarse.</li>
+              <li><b>IR (Instruction Register):</b> Conserva la instrucción en curso mientras la Unidad de Control decodifica su Opcode.</li>
+              <li><b>MAR (Memory Address Register):</b> Retiene la dirección específica de RAM donde se leerá o escribirá un dato.</li>
+              <li><b>MBR / MDR (Memory Buffer/Data Register):</b> Almacena el dato o instrucción que viaja desde o hacia la RAM.</li>
+              <li><b>PSW (Program Status Word):</b> Agrupa las banderas de condición (Z, C, N, V) y bits de modo/interrupción.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="surface" style="padding:14px 20px">
+          <h3>CORRESPONDENCIA FUNCIONAL DE REGISTROS: WILLIAM STALLINGS (2004) VS. MORRIS MANO (1994, 2005)</h3>
+          <div class="equiv-grid">
+            <div class="eq-card"><b>MAR ≡ AR</b><span>Address Register (Dirección RAM)</span></div>
+            <div class="eq-card"><b>MBR/MDR ≡ DR</b><span>Data Register (Palabra de memoria)</span></div>
+            <div class="eq-card"><b>PC ≡ PC</b><span>Contador de Programa</span></div>
+            <div class="eq-card"><b>IR ≡ IR</b><span>Registro de Instrucción</span></div>
+            <div class="eq-card"><b>Acumulador ≡ AC</b><span>Registro procesador central</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 05: ALU INTERNA -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">04 / ARQUITECTURA COMBINACIONAL (MANO, 1994, 2005; HAYES, 2006)</div>
+        <h2 class="title">Diseño lógico interno de la ALU</h2>
+        <p class="sub">Haz clic en los 3 bloques del circuito (o presiona 1, 2, 3) para analizar su estructura combinacional.</p>
+      </div>
+      <div class="content alu-layout">
+        <div class="alu-board">
+          <div class="alu-row">
+            <div class="alu-node">Operando A<br><small style="font-weight:500;color:#c9d8e9">Palabra n bits</small></div>
+            <div class="wire"></div>
+            <div class="alu-node active" data-alu="arith">1. Circuito<br>Aritmético</div>
+            <div class="wire"></div>
+            <div class="alu-node" data-alu="mux">3. MUX Final<br>(Modo S2)</div>
+          </div>
+          <div class="alu-row">
+            <div class="alu-node">Operando B<br><small style="font-weight:500;color:#c9d8e9">Entrada MUX Y</small></div>
+            <div class="wire"></div>
+            <div class="alu-node" data-alu="logic">2. Circuito<br>Lógico</div>
+            <div class="wire"></div>
+            <div class="alu-node">Salida F<br><small style="font-weight:500;color:var(--gold-light)">+ Flags Z,C,N,V</small></div>
+          </div>
+          <div class="alu-out">
+            <span>Selección interna: S1, S0 y Acarreo Cin</span>
+            <span>S2 = 0 (Aritmética) · S2 = 1 (Lógica)</span>
+          </div>
+        </div>
+        <div class="info-panel" id="alu-info">
+          <div>
+            <h3>1. Circuito Aritmético (Modo S2 = 0)</h3>
+            <p>Se construye encadenando <b>Sumadores Completos (Full Adders)</b> en paralelo. Delante de la entrada B de cada sumador se ubica un <b>Multiplexor 4 a 1</b> gobernado por <code>S1</code> y <code>S0</code> que elige entre <code>0</code>, <code>B</code>, <code>NOT(B)</code> o <code>1</code>.</p>
+            <p style="margin-top:8px">Al combinarse con el acarreo de entrada <code>Cin</code>, el mismo circuito sumador ejecuta 8 microoperaciones aritméticas, incluyendo la resta mediante suma en <b>complemento a dos</b>.</p>
+          </div>
+          <div class="formula">Ecuación General: D = A + Y + Cin<br>Resta: A - B = A + NOT(B) + 1</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 06: 12 MICROOPERACIONES -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">05 / TABLA DE FUNCIONES DE LA ALU (MODELO DE MORRIS MANO, 1994, 2005)</div>
+        <h2 class="title">Doce microoperaciones en una misma ALU</h2>
+        <p class="sub">Filtra la tabla a la izquierda o selecciona cualquier microoperación para proyectar su vista completa a la derecha.</p>
+      </div>
+      <div class="content master-detail">
+        <div class="left-table-col">
+          <div class="filters">
+            <button class="filter active" data-filter="all">Todas (12)</button>
+            <button class="filter" data-filter="arith">Aritméticas (8 · S2=0)</button>
+            <button class="filter" data-filter="logic">Lógicas (4 · S2=1)</button>
+          </div>
+          <div class="table-wrap">
+            <table class="func-table">
+              <thead>
+                <tr><th>S2 S1 S0</th><th>Cin</th><th>Entrada Y</th><th>Salida F</th><th>Microoperación</th><th>Familia</th></tr>
+              </thead>
+              <tbody>
+                <tr class="selected-row" data-family="arith" data-code="000" data-cin="0" data-y="Y = 0000" data-f="F = A" data-name="Transferencia directa de A" data-desc="S1S0 = 00 selecciona Y = 0000 en el multiplexor de entrada con acarreo Cin = 0. Los sumadores completos calculan A + 0 + 0, transfiriendo intacto el operando A hacia la salida F."><td>0 0 0</td><td>0</td><td>Y = 0</td><td><b>F = A</b></td><td>Transferir A</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="000" data-cin="1" data-y="Y = 0000" data-f="F = A + 1" data-name="Incremento de A" data-desc="S1S0 = 00 mantiene la entrada B bloqueada (Y = 0000), pero inyecta Cin = 1 en el primer sumador completo, incrementando el valor de A en una unidad (A + 1)."><td>0 0 0</td><td>1</td><td>Y = 0</td><td><b>F = A + 1</b></td><td>Incrementar A</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="001" data-cin="0" data-y="Y = B" data-f="F = A + B" data-name="Suma Aritmética de A y B" data-desc="S1S0 = 01 deja pasar intacto el operando B (Y = B) con Cin = 0. Los sumadores completos encadenados realizan la adición binaria estándar A + B."><td>0 0 1</td><td>0</td><td>Y = B</td><td><b>F = A + B</b></td><td>Suma A + B</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="001" data-cin="1" data-y="Y = B" data-f="F = A + B + 1" data-name="Suma con Acarreo Entrante" data-desc="S1S0 = 01 selecciona Y = B e inyecta Cin = 1. Suma ambos operandos más el bit de acarreo previo (esencial para sumas de múltiple precisión)."><td>0 0 1</td><td>1</td><td>Y = B</td><td><b>F = A + B + 1</b></td><td>Suma con acarreo</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="010" data-cin="0" data-y="Y = NOT(B)" data-f="F = A + B'" data-name="Resta con Préstamo (A - B - 1)" data-desc="S1S0 = 10 selecciona los inversores de B (complemento a uno Y = B') con Cin = 0. Equivale aritméticamente a restar B menos 1."><td>0 1 0</td><td>0</td><td>Y = B'</td><td><b>F = A + B'</b></td><td>Resta con préstamo</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="010" data-cin="1" data-y="Y = NOT(B)" data-f="F = A - B" data-name="Resta en Complemento a 2" data-desc="S1S0 = 10 invierte los bits de B (NOT B) y suma Cin = 1, formando el complemento a dos (-B) para ejecutar la resta exacta A - B usando el mismo sumador."><td>0 1 0</td><td>1</td><td>Y = B'</td><td><b>F = A + B' + 1</b></td><td>Resta (A - B)</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="011" data-cin="0" data-y="Y = 1111 (-1)" data-f="F = A - 1" data-name="Decremento de A" data-desc="S1S0 = 11 coloca todos los bits de Y en 1 (que en complemento a dos representa -1) con Cin = 0, restando una unidad al operando A."><td>0 1 1</td><td>0</td><td>Y = 1111</td><td><b>F = A - 1</b></td><td>Decrementar A</td><td>Aritmética</td></tr>
+                <tr data-family="arith" data-code="011" data-cin="1" data-y="Y = 1111 (-1)" data-f="F = A" data-name="Transferencia de A (con acarreo)" data-desc="S1S0 = 11 suma todos unos (-1) más Cin = 1 (+1), cancelándose entre sí para devolver nuevamente A en los bits de salida (generando acarreo saliente)."><td>0 1 1</td><td>1</td><td>Y = 1111</td><td><b>F = A</b></td><td>Transferir A</td><td>Aritmética</td></tr>
+                <tr data-family="logic" data-code="100" data-cin="X" data-y="Modo Lógico" data-f="F = A ∧ B" data-name="Producto Lógico AND" data-desc="Con S2 = 1 se selecciona el circuito lógico (Cin no importa). S1S0 = 00 elige las compuertas AND bit a bit, útil para enmascarar o limpiar bits específicos."><td>1 0 0</td><td>X</td><td>No aplica</td><td><b>F = A ∧ B</b></td><td>AND bit a bit</td><td>Lógica</td></tr>
+                <tr data-family="logic" data-code="101" data-cin="X" data-y="Modo Lógico" data-f="F = A ∨ B" data-name="Suma Lógica OR" data-desc="Con S2 = 1 y S1S0 = 01 el multiplexor lógico selecciona las compuertas OR bit a bit, útil para encender o forzar bits a 1 en una palabra."><td>1 0 1</td><td>X</td><td>No aplica</td><td><b>F = A ∨ B</b></td><td>OR bit a bit</td><td>Lógica</td></tr>
+                <tr data-family="logic" data-code="110" data-cin="X" data-y="Modo Lógico" data-f="F = A ⊕ B" data-name="Disyunción Exclusiva XOR" data-desc="Con S2 = 1 y S1S0 = 10 selecciona las compuertas XOR bit a bit: entrega 1 solo donde los bits de A y B difieren (permite comparar igualdad o invertir bits)."><td>1 1 0</td><td>X</td><td>No aplica</td><td><b>F = A ⊕ B</b></td><td>XOR bit a bit</td><td>Lógica</td></tr>
+                <tr data-family="logic" data-code="111" data-cin="X" data-y="Modo Lógico" data-f="F = A'" data-name="Complemento a Uno (NOT A)" data-desc="Con S2 = 1 y S1S0 = 11 el multiplexor selecciona los inversores NOT conectados a cada bit de A, invirtiendo todos sus ceros y unos."><td>1 1 1</td><td>X</td><td>No aplica</td><td><b>F = A' (NOT A)</b></td><td>Complemento A</td><td>Lógica</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="result-card" id="op-card">
+          <div>
+            <h3 id="op-card-title">MICROOPERACIÓN SELECCIONADA · S2S1S0 = 000</h3>
+            <div class="answer" id="op-card-f">F = A</div>
+            <div style="font-size:15px;font-weight:700;color:var(--gold-light)" id="op-card-name">
+              Transferencia directa de A
+            </div>
+          </div>
+          <div class="flag-badges" style="grid-template-columns:1fr 1fr">
+            <div class="f-badge on" id="op-card-cin">Cin = 0</div>
+            <div class="f-badge on" id="op-card-y">Y = 0000</div>
+          </div>
+          <div class="exp-box" id="op-card-desc">
+            S1S0 = 00 selecciona Y = 0000 en el multiplexor de entrada con acarreo Cin = 0. Los sumadores completos calculan A + 0 + 0, transfiriendo intacto el operando A hacia la salida F.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 07: BANDERAS -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">06 / REGISTRO DE CONDICIÓN Y COMPONENTES (PUNTO 2.2 · MANO, 1994; ANGULO, 1994)</div>
+        <h2 class="title">Banderas de estado (Flags) en la ALU</h2>
+        <p class="sub">Haz clic en cada bandera para proyectar su circuito detector y su función en los saltos condicionales.</p>
+      </div>
+      <div class="content" style="grid-template-rows:auto 1fr 1fr">
+        <div class="flags">
+          <button class="flag active" data-flag="Z">
+            <span class="symbol">Z</span>
+            <strong>ZERO FLAG (ZF)</strong>
+            <small>Compuerta NOR de n bits</small>
+          </button>
+          <button class="flag" data-flag="C">
+            <span class="symbol">C</span>
+            <strong>CARRY FLAG (CF)</strong>
+            <small>Acarreo final C = cn</small>
+          </button>
+          <button class="flag" data-flag="N">
+            <span class="symbol">N</span>
+            <strong>NEGATIVE / SIGN (SF)</strong>
+            <small>Bit más significativo Fn-1</small>
+          </button>
+          <button class="flag" data-flag="V">
+            <span class="symbol">V</span>
+            <strong>OVERFLOW FLAG (OF)</strong>
+            <small>Compuerta XOR: cn-1 ⊕ cn</small>
+          </button>
+        </div>
+
+        <div class="feature-spot" id="flag-spot">
+          <div>
+            <h4>Bandera Z · Zero Flag (Indicador de Resultado Cero)</h4>
+            <p>Se activa en <b>1 lógico</b> exclusivamente cuando todos los bits de la palabra de salida F de la ALU son iguales a cero (F = 0000). Si al menos un bit vale 1, la bandera permanece en 0.</p>
+          </div>
+          <div class="feature-meta">
+            <small>ECUACIÓN Y CIRCUITO DETECTOR</small>
+            <strong>Z = NOT(F3 + F2 + F1 + F0)<br>Compuerta NOR de n entradas</strong>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="surface">
+            <h3>DIFERENCIA CLAVE: CARRY (C) VS. OVERFLOW (V)</h3>
+            <p><b>Carry (C)</b> advierte cuando una operación <i>sin signo</i> supera la capacidad de n bits. En cambio, <b>Overflow (V)</b> advierte cuando la suma de dos números del mismo signo en <i>complemento a dos</i> rompe el rango representable y altera erróneamente el bit de signo.</p>
+          </div>
+          <div class="surface gold-top">
+            <h3>CAPTURA EN EL REGISTRO DE ESTADO (PSW)</h3>
+            <p>Los indicadores generados por la ALU se almacenan en los flip-flops del Registro de Condición cuando la señal <code>FlagsWrite</code> está activa, permitiendo que la Unidad de Control ejecute saltos condicionales (<code>JZ, JC, JO</code>).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 08: EJEMPLO DE REFERENCIA 1 -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">07 / EJEMPLO DE REFERENCIA 1 · CAMINO DE DATOS (STALLINGS, 2004; MANO, 1994)</div>
+        <h2 class="title">Traza RTL paso a paso: ADD R1, R2</h2>
+        <p class="sub">Haz clic en los pulsos T0 a T7 para seguir la ejecución en un CPU de 8 bits con bus interno único (R1 = 5, R2 = 3).</p>
+      </div>
+      <div class="content" style="grid-template-rows:auto 1fr auto auto">
+        <div class="timeline">
+          <button class="step active" data-step="0">T0<small>Fetch</small></button>
+          <button class="step" data-step="1">T1<small>Fetch</small></button>
+          <button class="step" data-step="2">T2<small>Fetch</small></button>
+          <button class="step" data-step="3">T3<small>Fetch</small></button>
+          <button class="step" data-step="4">T4<small>Decode</small></button>
+          <button class="step" data-step="5">T5<small>Execute</small></button>
+          <button class="step" data-step="6">T6<small>Execute</small></button>
+          <button class="step" data-step="7">T7<small>WriteBack</small></button>
+        </div>
+
+        <div class="feature-spot" id="step-spot">
+          <div>
+            <h4>Pulso T0 (Fase Fetch) · Microoperación: MAR ← PC</h4>
+            <p>La Unidad de Control activa las señales <code>PCout</code> y <code>MARin</code>. El Contador de Programa coloca la dirección inicial <code>20h</code> en el bus interno único y el registro MAR la captura para direccionar la RAM.</p>
+          </div>
+          <div class="feature-meta">
+            <small>ESTADO DEL BUS INTERNO</small>
+            <strong>Señales: PCout, MARin<br>Dato en Bus = 20h (00100000₂)</strong>
+          </div>
+        </div>
+
+        <div class="reg-strip">
+          <div class="reg-box"><small>PC</small><strong id="r-pc">20h</strong></div>
+          <div class="reg-box"><small>MAR</small><strong id="r-mar">20h</strong></div>
+          <div class="reg-box"><small>MBR</small><strong id="r-mbr">—</strong></div>
+          <div class="reg-box"><small>IR</small><strong id="r-ir">—</strong></div>
+          <div class="reg-box"><small>R1 (Dest)</small><strong id="r-r1">00000101 (5)</strong></div>
+          <div class="reg-box"><small>Y (Temp)</small><strong id="r-y">—</strong></div>
+          <div class="reg-box"><small>T (Sal. ALU)</small><strong id="r-t">—</strong></div>
+        </div>
+
+        <div class="surface" style="padding:12px 20px">
+          <h3>¿POR QUÉ SE NECESITAN LOS REGISTROS TEMPORALES Y y T EN UN BUS INTERNO ÚNICO?</h3>
+          <p style="font-size:13.8px;margin:2px 0">Como el bus único solo transporta <b>un dato por pulso de reloj</b> y la ALU es combinacional (sin memoria propia), en <b>T5</b> se guarda primero <code>R1 (5)</code> en el registro temporal <b>Y</b>; así en <b>T6</b> <code>R2 (3)</code> viaja por el bus, la ALU suma <code>Y + R2 = 8</code> entregando la salida en <b>T</b>, y en <b>T7</b> se escribe de vuelta en <code>R1</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 09: SHIFTER Y ACUMULADOR -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">08 / UNIDAD PROCESADORA, DESPLAZAMIENTO Y ACUMULADOR (PUNTOS 2.2 Y 2.3 · MANO, 1994)</div>
+        <h2 class="title">Registro de desplazamiento y Acumulador (AC)</h2>
+        <p class="sub">Haz clic en los botones de prueba para observar cómo operan el desplazador y la lógica del acumulador.</p>
+      </div>
+      <div class="content" style="grid-template-rows:1fr auto">
+        <div class="split">
+          <div class="surface">
+            <h3>SHIFTER COMBINACIONAL VS. REGISTRO DE DESPLAZAMIENTO</h3>
+            <div class="binary" id="shift-display">Entrada: 0101 (5) → Salida: 1010 (10)</div>
+            <div class="mini-btns">
+              <button class="mini-btn active" data-sh="shl">Desplazar Izq. (SHL ×2)</button>
+              <button class="mini-btn" data-sh="shr">Desplazar Der. (SHR ÷2)</button>
+              <button class="mini-btn" data-sh="rol">Rotación Circular (ROL)</button>
+            </div>
+            <ul>
+              <li><b>Shifter Combinacional:</b> Red de multiplexores que desplaza los bits de la palabra en el mismo ciclo sin almacenarla.</li>
+              <li><b>Registro de Desplazamiento (Secuencial):</b> Cadena de <b>flip-flops tipo D</b> con MUX de entrada que retiene el dato, lo desplaza o carga en paralelo con el reloj.</li>
+            </ul>
+          </div>
+          <div class="surface gold-top">
+            <h3>UNIDAD PROCESADORA Y DISEÑO DEL ACUMULADOR (AC)</h3>
+            <div class="binary" id="ac-display">AC ← AC + DR &nbsp;(0111 + 0011 = 1010)</div>
+            <div class="mini-btns">
+              <button class="mini-btn active" data-ac="add">Suma (AC ← AC + DR)</button>
+              <button class="mini-btn" data-ac="clr">Limpiar (AC ← 0)</button>
+              <button class="mini-btn" data-ac="inr">Incrementar (AC ← AC + 1)</button>
+              <button class="mini-btn" data-ac="com">Complemento (AC ← AC')</button>
+            </div>
+            <ul>
+              <li><b>Unidad Procesadora:</b> Integra banco de registros + ALU + Shifter con retorno al banco.</li>
+              <li><b>Diseño del Acumulador (Punto 2.3):</b> Une en un solo bloque la ALU, el registro secuencial <code>AC</code> y las compuertas de control para operar sin buses intermedios.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature-spot" id="sh-ac-spot">
+          <div>
+            <h4>Operación Activa · Desplazamiento Lógico Izquierdo (SHL)</h4>
+            <p>Todos los bits de la palabra se mueven una posición hacia la izquierda e ingresa un 0 lógico por el bit menos significativo, multiplicando por 2 el valor numérico en un solo pulso.</p>
+          </div>
+          <div class="feature-meta">
+            <small>EXPRESIÓN RTL</small>
+            <strong>R ← shl R<br>0101₂ (5) → 1010₂ (10)</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 10: EJEMPLO DE REFERENCIA 2 -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">09 / EJEMPLO DE REFERENCIA 2 · ALU DE 4 BITS Y BANDERAS (MANO, 1994, 2005)</div>
+        <h2 class="title">Prueba práctica con A = 0111 (+7) y B = 0011 (+3)</h2>
+        <p class="sub">Haz clic en cualquier fila de la tabla de opciones para evaluar el circuito aritmético/lógico y las banderas a la derecha.</p>
+      </div>
+      <div class="content master-detail">
+        <div class="table-wrap">
+          <table class="case-table">
+            <thead>
+              <tr><th>S2 S1 S0</th><th>Cin</th><th>Operación Seleccionada</th><th>Entradas (A , B)</th><th>Salida F</th></tr>
+            </thead>
+            <tbody>
+              <tr class="case-row active-case" data-idx="0"><td>0 0 1</td><td>0</td><td>1. Suma Aritmética (A + B)</td><td>0111 , 0011</td><td><b>1010</b></td></tr>
+              <tr class="case-row" data-idx="1"><td>0 1 0</td><td>1</td><td>2. Resta Compl. a 2 (A + B' + 1)</td><td>0111 , 0011</td><td><b>0100</b></td></tr>
+              <tr class="case-row" data-idx="2"><td>0 0 1</td><td>0</td><td>3. Suma con Acarreo (-1 + 1)</td><td>1111 , 0001</td><td><b>0000</b></td></tr>
+              <tr class="case-row" data-idx="3"><td>1 0 0</td><td>X</td><td>4. Producto Lógico (A AND B)</td><td>0111 , 0011</td><td><b>0011</b></td></tr>
+              <tr class="case-row" data-idx="4"><td>1 0 1</td><td>X</td><td>5. Suma Lógica (A OR B)</td><td>0111 , 0011</td><td><b>0111</b></td></tr>
+              <tr class="case-row" data-idx="5"><td>1 1 0</td><td>X</td><td>6. Disyunción Exclusiva (A XOR B)</td><td>0111 , 0011</td><td><b>0100</b></td></tr>
+              <tr class="case-row" data-idx="6"><td>1 1 1</td><td>X</td><td>7. Inversión Bit a Bit (NOT A)</td><td>0111 , 0011</td><td><b>1000</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-card">
+          <div>
+            <h3 id="sim-op-title">1. SUMA ARITMÉTICA · S2S1S0 = 001, Cin = 0</h3>
+            <div class="answer" id="sim-answer">F = 1010</div>
+            <div style="font-family:ui-monospace,monospace;font-size:13px;color:#c9d8e9" id="sim-carries">
+              Acarreos internos: c0=0 → c1=1 → c2=1 → <b>c3=1</b> → <b>c4=0</b>
+            </div>
+          </div>
+          <div class="flag-badges" id="sim-badges">
+            <div class="f-badge">Z = 0</div>
+            <div class="f-badge">C = 0</div>
+            <div class="f-badge on">N = 1</div>
+            <div class="f-badge on">V = 1</div>
+          </div>
+          <div class="exp-box" id="sim-exp">
+            <b>¡Ocurre Overflow con signo (V = c3 ⊕ c4 = 1 ⊕ 0 = 1)!</b> Sin signo 7 + 3 = 10 cabe en 4 bits (C=0), pero en complemento a 2 el máximo positivo es +7; al sumar +7 + 3 da +10 y se desborda hacia el signo negativo (1010 = -6).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 11: CONCLUSIÓN Y CIERRE -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">10 / CONCLUSIÓN Y CIERRE DE LA EXPOSICIÓN</div>
+        <h2 class="title">Sinergia entre Organización y Diseño Lógico</h2>
+        <p class="sub">Integración final de la Unidad 2: Organización del Procesador y Unidad Aritmético-Lógica (ALU).</p>
+      </div>
+      <div class="content" style="grid-template-rows:1fr">
+        <div class="closing-card">
+          <h3>Conclusión</h3>
+          <p>El estudio del diseño lógico de procesadores demuestra que la capacidad computacional de una CPU no reside en circuitos aislados, sino en la estrecha coordinación entre su <b>Camino de Datos (Datapath)</b>, su <b>Unidad de Control</b> y su <b>Unidad Aritmético-Lógica (ALU)</b>. Mientras los registros visibles y de control (<code>PC, IR, MAR/AR, MBR/DR, AC</code>) aportan el almacenamiento secuencial sincronizado por pulsos de reloj, la ALU y el registro de desplazamiento ejecutan las transformaciones aritméticas, booleanas y de posicionamiento gobernadas por las variables de selección (<code>S2, S1, S0, Cin</code>), actualizando las banderas de estado (<code>Z, C, N, V</code>) que permiten al procesador tomar decisiones lógicas.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="bottom">
+    <span class="time" id="counter">01 / 11</span>
+    <div class="bar"><i id="bar"></i></div>
+    <span>Navegación por teclado: Flechas ← → · Teclas 1-3 en láminas interactivas</span>
+  </div>
+</main>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')],
+      dots=[...document.querySelectorAll('.dot[data-go]')],
+      counter=document.getElementById('counter'),
+      bar=document.getElementById('bar');
+let current=0;
+
+function go(n){
+  current=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+  dots.forEach((d,i)=>d.classList.toggle('active',i===current));
+  counter.textContent=String(current+1).padStart(2,'0')+' / '+slides.length;
+  bar.style.width=((current+1)/slides.length*100)+'%';
+}
+
+dots.forEach(d=>d.onclick=()=>go(Number(d.dataset.go)));
+document.getElementById('full').onclick=()=>{
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen?.();}
+  else{document.exitFullscreen?.();}
+};
+
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown'].includes(e.key)) go(current+1);
+  if(['ArrowLeft','PageUp'].includes(e.key)) go(current-1);
+  if(e.key==='Home') go(0);
+  if(e.key==='End') go(slides.length-1);
+  if(current===1&&['1','2','3'].includes(e.key)) document.querySelectorAll('.choice')[Number(e.key)-1].click();
+  if(current===4&&['1','2','3'].includes(e.key)) document.querySelectorAll('[data-alu]')[Number(e.key)-1].click();
+});
+
+// Lámina 02: 3 niveles
+const lvlData=[
+  ['1. Arquitectura del Conjunto de Instrucciones (ISA)','Define los atributos del procesador visibles al programador de bajo nivel o compilador: repertorio de instrucciones, tipos de datos, registros direccionables y modos de acceso a memoria.','¿Qué operaciones reconoce el CPU?<br>Ej: Instrucción ADD R1, R2 y su efecto sobre el registro destino.'],
+  ['2. Organización o Microarquitectura (Stallings, 2004)','Especifica cómo se interconectan funcionalmente las unidades operativas internas (banco de registros, ALU, buses internos, multiplexores y unidad de control) para materializar la arquitectura.','¿Cómo se implementan las instrucciones?<br>Ej: Camino de datos de bus interno único con registros Y y T.'],
+  ['3. Diseño Lógico (Morris Mano, 1994, 2005)','Define los circuitos digitales combinacionales y secuenciales junto con las ecuaciones booleanas que construyen físicamente cada bloque de la organización.','¿Qué circuitos materializan la microarquitectura?<br>Ej: Sumadores completos (FA), MUX 4:1 y biestables tipo D.']
+];
+document.querySelectorAll('.choice').forEach(c=>c.onclick=()=>{
+  document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));
+  c.classList.add('selected');
+  const d=lvlData[Number(c.dataset.lvl)];
+  document.getElementById('lvl-spot').innerHTML=`<div><h4>${d[0]}</h4><p>${d[1]}</p></div><div class="feature-meta"><small>PREGUNTA Y EJEMPLO CLAVE</small><strong>${d[2]}</strong></div>`;
+});
+
+// Lámina 03: Etapas de ciclo / pipeline
+const stageData=[
+  ['Etapa 1 · IF (Instruction Fetch / Búsqueda)','El procesador obtiene la próxima instrucción desde la memoria RAM usando la dirección contenida en el Contador de Programa (PC), la carga en el registro IR e incrementa automáticamente el PC.','MAR ← PC · MBR ← M[MAR]<br>IR ← MBR · PC ← PC + 1'],
+  ['Etapa 2 · ID (Instruction Decode / Decodificación)','La Unidad de Control decodifica el código de operación (Opcode) alojado en el registro IR, identifica los registros fuente/destino y prepara las señales de control del camino de datos.','Decodificación de IR en Unidad de Control<br>Lectura de registros fuente (R1, R2)'],
+  ['Etapa 3 · EX (Execute / Ejecución en la ALU)','La Unidad Aritmético-Lógica (ALU) procesa los operandos según las líneas de selección S2, S1, S0 y Cin, generando el resultado F y actualizando las banderas de estado (Z, C, N, V).','Y ← R1 · T ← Y + R2<br>Actualización de Flags (Z, C, N, V)'],
+  ['Etapa 4 · MEM (Memory Access / Acceso a Datos)','Fase utilizada por instrucciones de carga o almacenamiento (LOAD / STORE) para leer o escribir palabras de datos en la memoria principal a través de MAR y MBR.','MAR ← Dirección Efectiva<br>MBR ← M[MAR]  o  M[MAR] ← MBR'],
+  ['Etapa 5 · WB (Write Back / Escritura de Resultado)','El resultado final calculado por la ALU (retenido en el registro temporal T) o el dato leído de la memoria se almacena definitivamente en el registro destino.','R1 ← T  (o  AC ← Resultado)<br>Fin del ciclo de la instrucción']
+];
+document.querySelectorAll('.stage-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.stage-btn').forEach(x=>x.classList.remove('active-stage'));
+  b.classList.add('active-stage');
+  const d=stageData[Number(b.dataset.st)];
+  document.getElementById('stage-spot').innerHTML=`<div><h4>${d[0]}</h4><p>${d[1]}</p></div><div class="feature-meta"><small>REGISTROS Y MICROOPERACIÓN</small><strong>${d[2]}</strong></div>`;
+});
+
+// Lámina 05: Bloques de la ALU
+const aluInfo={
+  arith:['1. Circuito Aritmético (Modo S2 = 0)','Se construye encadenando <b>Sumadores Completos (Full Adders)</b> en paralelo. Delante de la entrada B de cada sumador se ubica un <b>Multiplexor 4 a 1</b> gobernado por <code>S1</code> y <code>S0</code> que elige entre <code>0</code>, <code>B</code>, <code>NOT(B)</code> o <code>1</code>.','Al combinarse con el acarreo de entrada <code>Cin</code>, el mismo circuito sumador ejecuta 8 microoperaciones aritméticas, incluyendo la resta mediante suma en <b>complemento a dos</b>.','Ecuación General: D = A + Y + Cin<br>Resta: A - B = A + NOT(B) + 1'],
+  logic:['2. Circuito Lógico (Modo S2 = 1)','Opera de forma paralela e independiente para cada posición de bit <i>i</i> sin propagación de acarreos entre etapas vecinas.','Emplea un arreglo de compuertas básicas (<code>AND, OR, XOR</code> e inversor <code>NOT</code>) conectadas a las entradas A y B, cuyas salidas alimentan un MUX 4 a 1 controlado por <code>S1</code> y <code>S0</code>.','S1S0 = 00 (AND) · 01 (OR)<br>S1S0 = 10 (XOR) · 11 (NOT A)'],
+  mux:['3. Etapa de Selección Final (MUX 2:1)','Un multiplexor de 2 a 1 por cada bit de salida, gobernado por la tercera variable de selección de modo (<code>S2</code>), decide qué circuito entrega su resultado a la salida final <code>F</code> de la ALU.','Simultáneamente, las salidas alimentan las compuertas detectoras del Registro de Condición (banderas Z, C, N y V).','Si S2 = 0 → Salida Aritmética (8 funciones)<br>Si S2 = 1 → Salida Lógica (4 funciones)']
+};
+document.querySelectorAll('[data-alu]').forEach(n=>n.onclick=()=>{
+  document.querySelectorAll('[data-alu]').forEach(x=>x.classList.remove('active'));
+  n.classList.add('active');
+  const d=aluInfo[n.dataset.alu];
+  document.getElementById('alu-info').innerHTML=`<div><h3>${d[0]}</h3><p>${d[1]}</p><p style="margin-top:8px">${d[2]}</p></div><div class="formula">${d[3]}</div>`;
+});
+
+// Lámina 06: Tabla a la izquierda + Vista completa a la derecha
+function selectOpRow(r){
+  document.querySelectorAll('.func-table tbody tr').forEach(x=>x.classList.remove('selected-row'));
+  r.classList.add('selected-row');
+  document.getElementById('op-card-title').textContent='MICROOPERACIÓN · S2S1S0 = '+r.dataset.code;
+  document.getElementById('op-card-f').textContent=r.dataset.f;
+  document.getElementById('op-card-name').textContent=r.dataset.name;
+  document.getElementById('op-card-cin').textContent='Cin = '+r.dataset.cin;
+  document.getElementById('op-card-y').textContent=r.dataset.y;
+  document.getElementById('op-card-desc').textContent=r.dataset.desc;
+}
+document.querySelectorAll('.func-table tbody tr').forEach(r=>r.onclick=()=>selectOpRow(r));
+document.querySelectorAll('.filter').forEach(f=>f.onclick=()=>{
+  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+  f.classList.add('active');
+  const fam=f.dataset.filter;
+  let firstVisible=null;
+  document.querySelectorAll('.func-table tbody tr').forEach(r=>{
+    const show=(fam==='all'||r.dataset.family===fam);
+    r.style.display=show?'':'none';
+    if(show && !firstVisible) firstVisible=r;
+  });
+  if(firstVisible) selectOpRow(firstVisible);
+});
+
+// Lámina 07: Banderas
+const flagData={
+  Z:['Bandera Z · Zero Flag (Indicador de Resultado Cero)','Se activa en <b>1 lógico</b> exclusivamente cuando todos los bits de la palabra de salida F de la ALU son iguales a cero (F = 0000). Si al menos un bit vale 1, la bandera permanece en 0.','Z = NOT(F3 + F2 + F1 + F0)<br>Compuerta NOR de n entradas'],
+  C:['Bandera C · Carry Flag (Indicador de Acarreo Final)','Se activa en <b>1 lógico</b> cuando el sumador completo del bit más significativo genera un acarreo de salida (C = cn). Advierte que una operación aritmética con enteros <i>sin signo</i> rebasó los n bits.','C = cn (Acarreo de salida de etapa n-1)<br>Detecta límite en enteros sin signo'],
+  N:['Bandera N · Negative / Sign Flag (Indicador de Signo)','Copia directamente el estado del bit más significativo del resultado generado por la ALU (N = Fn-1). En la convención de complemento a dos, <b>0</b> representa positivo y <b>1</b> negativo.','N = Fn-1 (En 4 bits: N = F3)<br>1 = Resultado Negativo · 0 = Positivo'],
+  V:['Bandera V · Overflow Flag (Desbordamiento con Signo)','Se activa en <b>1 lógico</b> cuando una operación en complemento a dos excede el rango representable [-2^(n-1), +2^(n-1)-1], ocurriendo cuando se suman dos números de igual signo y el resultado cambia de signo.','V = cn-1 ⊕ cn (Compuerta XOR)<br>Compara acarreo entrante y saliente del signo']
+};
+document.querySelectorAll('.flag').forEach(f=>f.onclick=()=>{
+  document.querySelectorAll('.flag').forEach(x=>x.classList.remove('active'));
+  f.classList.add('active');
+  const d=flagData[f.dataset.flag];
+  document.getElementById('flag-spot').innerHTML=`<div><h4>${d[0]}</h4><p>${d[1]}</p></div><div class="feature-meta"><small>ECUACIÓN Y CIRCUITO DETECTOR</small><strong>${d[2]}</strong></div>`;
+});
+
+// Lámina 08: Ejemplo 1 (Traza T0 - T7)
+const steps=[
+  ['Pulso T0 (Fase Fetch) · Microoperación: MAR ← PC','La Unidad de Control activa las señales <code>PCout</code> y <code>MARin</code>. El Contador de Programa coloca la dirección inicial <code>20h</code> en el bus interno único y el registro MAR la captura para direccionar la RAM.','Señales: PCout, MARin<br>Dato en Bus = 20h (00100000₂)','20h','20h','—','—','00000101 (5)','—','—'],
+  ['Pulso T1 (Fase Fetch) · Solicitar M[MAR]; PC ← PC + 1','Se activan <code>MemRead</code> y <code>PCinc</code>. La interfaz de memoria inicia la lectura en la dirección 20h mientras el Contador de Programa avanza automáticamente a <code>21h</code> usando su incrementador dedicado.','Señales: MemRead, PCinc<br>PC avanza de 20h → 21h','21h','20h','Leyendo RAM...','—','00000101 (5)','—','—'],
+  ['Pulso T2 (Fase Fetch) · Microoperación: MBR ← M[MAR]','Cuando la memoria RAM confirma la entrega del dato, la señal <code>MBRloadMem</code> carga la palabra de instrucción codificada (<code>ADD R1, R2</code>) desde el bus de datos externo hacia el registro MBR.','Señal: MBRloadMem<br>MBR recibe instrucción ADD R1, R2','21h','20h','ADD R1, R2','—','00000101 (5)','—','—'],
+  ['Pulso T3 (Fase Fetch) · Microoperación: IR ← MBR','Se activan <code>MBRout</code> e <code>IRin</code>. El contenido del registro de buffer de memoria (MBR) se transfiere a través del bus interno hasta quedar almacenado en el Registro de Instrucción (IR).','Señales: MBRout, IRin<br>Bus Interno = ADD R1, R2','21h','20h','ADD R1, R2','ADD R1, R2','00000101 (5)','—','—'],
+  ['Pulso T4 (Fase Decode) · Decodificación en Unidad de Control','El decodificador de la Unidad de Control analiza los campos de bits en IR: identifica el código de operación <code>ADD</code>, los registros fuente <code>R1</code> y <code>R2</code>, y el destino <code>R1</code>.','Señal: ControlDecode<br>Opcode = ADD · Fuentes = R1, R2','21h','20h','ADD R1, R2','ADD R1, R2','00000101 (5)','—','—'],
+  ['Pulso T5 (Fase Execute) · Microoperación: Y ← R1','Se activan <code>R1out</code> y <code>Yin</code>. El primer operando almacenado en R1 (<code>00000101₂ = 5</code>) se coloca en el bus interno único y es capturado en el registro auxiliar de entrada Y de la ALU.','Señales: R1out, Yin<br>Bus = 00000101₂ (5) → Registro Y','21h','20h','ADD R1, R2','ADD R1, R2','00000101 (5)','00000101 (5)','—'],
+  ['Pulso T6 (Fase Execute) · Microoperación: T ← Y + R2','Se activan <code>R2out, ALU=ADD, Tin, FlagsWrite</code>. R2 (<code>00000011₂ = 3</code>) sale al bus; la ALU suma Y (5) + Bus (3) = <code>00001000₂ (8)</code>, guarda la salida en T y actualiza las banderas.','Señales: R2out, ALU=ADD, Tin<br>ALU: 5 + 3 = 8 · Flags: Z=0,C=0,N=0,V=0','21h','20h','ADD R1, R2','ADD R1, R2','00000101 (5)','00000101 (5)','00001000 (8)'],
+  ['Pulso T7 (Fase Write Back) · Microoperación: R1 ← T','Se activan <code>Tout</code> y <code>R1in</code>. El resultado almacenado en el registro temporal de salida T (<code>00001000₂ = 8</code>) viaja por el bus interno y actualiza finalmente el registro destino R1.','Señales: Tout, R1in<br>Bus = 00001000₂ (8) → R1 actualizado','21h','20h','ADD R1, R2','ADD R1, R2','00001000 (8)','00000101 (5)','00001000 (8)']
+];
+document.querySelectorAll('.step').forEach(s=>s.onclick=()=>{
+  document.querySelectorAll('.step').forEach(x=>x.classList.remove('active'));
+  s.classList.add('active');
+  const d=steps[Number(s.dataset.step)];
+  document.getElementById('step-spot').innerHTML=`<div><h4>${d[0]}</h4><p>${d[1]}</p></div><div class="feature-meta"><small>ESTADO DEL BUS INTERNO</small><strong>${d[2]}</strong></div>`;
+  document.getElementById('r-pc').textContent=d[3];
+  document.getElementById('r-mar').textContent=d[4];
+  document.getElementById('r-mbr').textContent=d[5];
+  document.getElementById('r-ir').textContent=d[6];
+  document.getElementById('r-r1').textContent=d[7];
+  document.getElementById('r-y').textContent=d[8];
+  document.getElementById('r-t').textContent=d[9];
+});
+
+// Lámina 09: Shifter y Acumulador
+const shOps={
+  shl:['Entrada: 0101 (5) → Salida: 1010 (10)','Operación Activa · Desplazamiento Lógico Izquierdo (SHL)','Todos los bits de la palabra se mueven una posición hacia la izquierda e ingresa un 0 lógico por el bit menos significativo, multiplicando por 2 el valor numérico en un solo pulso.','R ← shl R<br>0101₂ (5) → 1010₂ (10)'],
+  shr:['Entrada: 0101 (5) → Salida: 0010 (2)','Operación Activa · Desplazamiento Lógico Derecho (SHR)','Desplaza todos los bits una posición hacia la derecha e inserta un 0 lógico en el extremo más significativo, efectuando una división entera entre 2.','R ← shr R<br>0101₂ (5) → 0010₂ (2)'],
+  rol:['Entrada: 1001 → Salida: 0011','Operación Activa · Rotación Circular Izquierda (ROL)','El bit más significativo que sale por el extremo izquierdo se reintroduce directamente por el extremo derecho sin pérdida de bits.','R ← cil R<br>1001₂ → 0011₂']
+};
+document.querySelectorAll('[data-sh]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-sh]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const d=shOps[b.dataset.sh];
+  document.getElementById('shift-display').textContent=d[0];
+  document.getElementById('sh-ac-spot').innerHTML=`<div><h4>${d[1]}</h4><p>${d[2]}</p></div><div class="feature-meta"><small>EXPRESIÓN RTL</small><strong>${d[3]}</strong></div>`;
+});
+const acOps={
+  add:['AC ← AC + DR  (0111 + 0011 = 1010)','Microoperación en Acumulador · Adición (ADD)','El registro AC entrega un operando a la ALU, se suma con el contenido del Registro de Datos (DR) y el resultado vuelve a capturarse en AC con el pulso del reloj.','AC ← AC + DR<br>Acumulación directa sin bus intermedio'],
+  clr:['AC ← 0000  (Puesta a Cero)','Microoperación en Acumulador · Limpiar (CLR)','La señal de control síncrona pone todos los flip-flops del registro acumulador AC en 0 lógico en un ciclo de reloj.','AC ← 0<br>Reinicio inmediato del acumulador'],
+  inr:['AC ← AC + 1  (Incremento)','Microoperación en Acumulador · Incrementar (INR)','Incrementa en una unidad el valor binario contenido actualmente en el registro AC, permitiendo utilizarlo como contador.','AC ← AC + 1<br>Incremento síncrono'],
+  com:['AC ← AC\'  (0101 → 1010)','Microoperación en Acumulador · Complementar (CMA)','Invierte bit a bit el contenido almacenado en el registro acumulador (complemento a uno), base para operaciones de sustracción.','AC ← NOT(AC)<br>Inversión booleana en AC']
+};
+document.querySelectorAll('[data-ac]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-ac]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const d=acOps[b.dataset.ac];
+  document.getElementById('ac-display').textContent=d[0];
+  document.getElementById('sh-ac-spot').innerHTML=`<div><h4>${d[1]}</h4><p>${d[2]}</p></div><div class="feature-meta"><small>EXPRESIÓN RTL</small><strong>${d[3]}</strong></div>`;
+});
+
+// Lámina 10: Ejemplo 2 mediante Tabla de Opciones seleccionable
+const aluCases=[
+  {
+    title:'1. SUMA ARITMÉTICA · S2S1S0 = 001, Cin = 0',
+    ans:'F = 1010',
+    carries:'Acarreos internos: c0=0 → c1=1 → c2=1 → <b>c3=1</b> → <b>c4=0</b>',
+    flags:[['Z = 0',false],['C = 0',false],['N = 1',true],['V = 1',true]],
+    exp:'<b>¡Ocurre Overflow con signo (V = c3 ⊕ c4 = 1 ⊕ 0 = 1)!</b> Sin signo 7 + 3 = 10 cabe en 4 bits (C=0), pero en complemento a 2 el máximo positivo es +7; al sumar +7 + 3 da +10 y se desborda hacia el signo negativo (1010 = -6).'
+  },
+  {
+    title:'2. RESTA EN COMPLEMENTO A 2 · S2S1S0 = 010, Cin = 1',
+    ans:'F = 0100',
+    carries:'Operación: 0111 + NOT(0011) + 1 = 0111 + 1100 + 1 → <b>c3=1, c4=1</b>',
+    flags:[['Z = 0',false],['C = 1',true],['N = 0',false],['V = 0',false]],
+    exp:'<b>Resta exacta (+7 - 3 = +4 → 0100):</b> El acarreo saliente C=1 indica ausencia de préstamo. Como c3=1 y c4=1, el desbordamiento es <code>V = 1 ⊕ 1 = 0</code> (resultado válido con signo).'
+  },
+  {
+    title:'3. SUMA CON ACARREO Y CERO · S2S1S0 = 001, Cin = 0',
+    ans:'F = 0000',
+    carries:'Operación: 1111 (-1) + 0001 (+1) = 1 0000 → <b>c3=1, c4=1</b>',
+    flags:[['Z = 1',true],['C = 1',true],['N = 0',false],['V = 0',false]],
+    exp:'<b>Activación simultánea de Zero (Z=1) y Carry (C=1):</b> Los 4 bits del resultado quedan en 0000 (activando la compuerta NOR de Z) y el quinto bit sale como acarreo C=1. Con signo (-1 + 1 = 0) no hay overflow (V=0).'
+  },
+  {
+    title:'4. PRODUCTO LÓGICO AND · S2S1S0 = 100, Cin = X',
+    ans:'F = 0011',
+    carries:'Operación bit a bit: 0111 AND 0011 = 0011 (Sin acarreos)',
+    flags:[['Z = 0',false],['C = —',false],['N = 0',false],['V = —',false]],
+    exp:'<b>Enmascaramiento bit a bit:</b> El circuito lógico conserva en 1 únicamente las posiciones donde tanto A como B valen 1. Actualiza Z=0 y N=0 (C y V no aplican en modo lógico).'
+  },
+  {
+    title:'5. SUMA LÓGICA OR · S2S1S0 = 101, Cin = X',
+    ans:'F = 0111',
+    carries:'Operación bit a bit: 0111 OR 0011 = 0111 (Sin acarreos)',
+    flags:[['Z = 0',false],['C = —',false],['N = 0',false],['V = —',false]],
+    exp:'<b>Unión lógica bit a bit:</b> Coloca un 1 en cada posición donde al menos uno de los operandos A o B tenga un bit en 1. El resultado es 0111 (Z=0, N=0).'
+  },
+  {
+    title:'6. DISYUNCIÓN EXCLUSIVA XOR · S2S1S0 = 110, Cin = X',
+    ans:'F = 0100',
+    carries:'Operación bit a bit: 0111 XOR 0011 = 0100 (Sin acarreos)',
+    flags:[['Z = 0',false],['C = —',false],['N = 0',false],['V = —',false]],
+    exp:'<b>Comparación de diferencias:</b> Produce 1 únicamente en las posiciones donde los bits de A y B son distintos (si A y B fueran iguales, daría 0000 y activaría Z=1).'
+  },
+  {
+    title:'7. COMPLEMENTO A UNO (NOT A) · S2S1S0 = 111, Cin = X',
+    ans:'F = 1000',
+    carries:'Inversión directa de A: NOT(0111) = 1000 (Sin acarreos)',
+    flags:[['Z = 0',false],['C = —',false],['N = 1',true],['V = —',false]],
+    exp:'<b>Inversión bit a bit de A:</b> Invierte todos los bits del operando A (0111 pasa a 1000). Como el bit más significativo F3 queda en 1, se activa la bandera de signo <b>N = 1</b>.'
+  }
+];
+
+document.querySelectorAll('.case-row').forEach(r=>r.onclick=()=>{
+  document.querySelectorAll('.case-row').forEach(x=>x.classList.remove('active-case'));
+  r.classList.add('active-case');
+  const c=aluCases[Number(r.dataset.idx)];
+  document.getElementById('sim-op-title').textContent=c.title;
+  document.getElementById('sim-answer').textContent=c.ans;
+  document.getElementById('sim-carries').innerHTML=c.carries;
+  document.getElementById('sim-badges').innerHTML=c.flags.map(f=>`<div class="f-badge ${f[1]?'on':''}">${f[0]}</div>`).join('');
+  document.getElementById('sim-exp').innerHTML=c.exp;
+});
+
+go(0);
+</script>
+</body>
+</html>
