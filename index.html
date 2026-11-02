@@ -40,25 +40,25 @@ button{font:inherit}
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:14px 0;
-  gap:10px;
+  padding:10px 0;
+  gap:6px;
   z-index:20;
 }
 .brand{
   font-weight:900;
-  font-size:16px;
+  font-size:15px;
   letter-spacing:-.05em;
   color:var(--gold);
-  margin-bottom:4px;
+  margin-bottom:2px;
 }
 .dot{
-  width:32px;
-  height:32px;
+  width:28px;
+  height:28px;
   border:1px solid #ffffff22;
   border-radius:50%;
   background:#ffffff12;
   color:#c9d8e9;
-  font-size:11px;
+  font-size:10.5px;
   font-weight:800;
   cursor:pointer;
   transition:.2s;
@@ -205,25 +205,25 @@ button{font:inherit}
   box-shadow:0 0 0 28px #ffffff08,0 0 0 56px #c9a24b12;
 }
 .cover .hero h1{
+  position:absolute;
+  left:6%;
+  top:21%;
+  height:146px;
+  display:flex;
+  align-items:center;
   font-size:clamp(42px,4.8vw,72px);
   line-height:.95;
   letter-spacing:-.05em;
   max-width:640px;
   color:var(--navy);
-  margin:14px 0 12px;
-}
-.cover .hero .subtitle-cover{
-  font-size:clamp(16px,1.6vw,21px);
-  color:var(--blue);
-  font-weight:700;
-  max-width:560px;
-  margin:0 0 20px;
+  margin:0;
 }
 .cover .hero .edition{
-  font-size:12.5px;
+  font-size:12px;
   color:var(--muted);
-  letter-spacing:.12em;
+  letter-spacing:.1em;
   font-weight:800;
+  margin-bottom:6px;
 }
 .chip-art{
   position:absolute;
@@ -462,7 +462,7 @@ button{font:inherit}
   color:white;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
+  justify-content:space-evenly;
   position:relative;
   overflow:hidden;
 }
@@ -727,7 +727,208 @@ button{font:inherit}
 }
 .mini-btn.active,.mini-btn:hover{background:var(--navy);color:var(--gold-light);border-color:var(--gold)}
 
-/* CIERRE MAGISTRAL (SLIDE 11) */
+/* EJERCICIOS PRÁCTICOS (SLIDES 11, 12, 13) */
+.ex-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--navy);
+  border:1px solid var(--gold);
+  border-radius:12px;
+  padding:10px 18px;
+  color:#fff;
+  font-size:13.5px;
+}
+.ex-bar code{
+  color:var(--gold-light);
+  font-weight:800;
+  font-size:14px;
+}
+.ex-cards4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  align-items:stretch;
+}
+.ex-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:4px solid var(--navy);
+  border-radius:14px;
+  padding:18px 16px;
+  cursor:pointer;
+  transition:.22s;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+}
+.ex-card:not(:last-child):after{
+  content:"→";
+  position:absolute;
+  right:-13px;
+  top:50%;
+  transform:translateY(-50%);
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--gold);
+  color:var(--navy);
+  font-weight:900;
+  font-size:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5;
+  box-shadow:0 4px 10px #0b1f3622;
+}
+.ex-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--gold);
+  box-shadow:0 10px 24px #0b1f3614;
+}
+.ex-card.revealed{
+  border-color:var(--gold);
+  border-top:4px solid var(--gold);
+  background:#fffdf8;
+}
+.ex-card .step-tag{
+  display:inline-block;
+  width:fit-content;
+  background:var(--navy);
+  color:var(--gold-light);
+  font-size:11px;
+  font-weight:900;
+  padding:4px 10px;
+  border-radius:6px;
+  letter-spacing:.06em;
+}
+.ex-card h3{
+  margin:10px 0 6px;
+  font-size:20px;
+  color:var(--navy);
+}
+.ex-card .guide-q{
+  font-size:13.5px;
+  color:var(--muted);
+  line-height:1.4;
+  margin:0 0 10px;
+}
+.ex-card .ans-box{
+  background:#eef4fc;
+  border:1px dashed var(--blue);
+  border-radius:10px;
+  padding:12px;
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--blue);
+  text-align:center;
+  transition:.2s;
+}
+.ex-card.revealed .ans-box{
+  background:var(--navy);
+  border:1px solid var(--gold);
+  color:var(--gold-light);
+}
+.cycle-loop-banner{
+  background:var(--navy);
+  border:2px solid var(--gold);
+  border-radius:14px;
+  padding:14px 22px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.cycle-loop-banner strong{
+  color:var(--gold);
+  font-size:15px;
+}
+.cycle-loop-banner span{
+  font-size:14px;
+  color:#e2ecf7;
+}
+.ex-reg-table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+.ex-reg-table th{
+  background:var(--navy);
+  color:var(--gold-light);
+  padding:11px 14px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  text-align:center;
+}
+.ex-reg-table th:first-child,.ex-reg-table td:first-child{text-align:left}
+.ex-reg-table td{
+  padding:12px 14px;
+  border-bottom:1px solid #e5edf6;
+  text-align:center;
+  font-family:ui-monospace,monospace;
+  font-size:14px;
+  font-weight:800;
+}
+.ex-reg-table tbody tr{
+  cursor:pointer;
+  transition:.15s;
+}
+.ex-reg-table tbody tr:hover{background:#f2f6fc}
+.ex-reg-table tbody tr.revealed-row{background:#fffdf6}
+.ex-reg-table .cell-hidden{
+  color:var(--blue);
+  background:#eef4fc;
+  border-radius:6px;
+  padding:4px 10px;
+  font-size:12px;
+  display:inline-block;
+}
+.ex-reg-table tr.revealed-row .cell-hidden{
+  background:var(--gold-light);
+  color:var(--navy);
+  border:1px solid var(--gold);
+  font-size:13.5px;
+}
+.pipe-cmp-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  text-align:center;
+  background:#fff;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+.pipe-cmp-table th{
+  background:var(--navy);
+  color:var(--gold-light);
+  padding:6px 4px;
+  font-size:11px;
+}
+.pipe-cmp-table td{
+  padding:6px 4px;
+  border:1px solid #e5edf6;
+  font-weight:800;
+  color:var(--muted);
+}
+.pipe-cmp-table td.st-if{background:#e6f0ff;color:var(--blue)}
+.pipe-cmp-table td.st-id{background:#d8f3f7;color:#0b6b78}
+.pipe-cmp-table td.st-ex{background:var(--gold-light);color:#7a5a10}
+.pipe-cmp-table td.st-mem{background:#e3e8f0;color:var(--navy)}
+.pipe-cmp-table td.st-wb{background:#d9f2e6;color:#0c6b43}
+.pipe-cmp-table .hl-col{
+  outline:2px solid var(--gold);
+  box-shadow:inset 0 0 0 2px var(--gold);
+  font-weight:900;
+}
+
+/* CIERRE MAGISTRAL (SLIDE 14) */
 .closing-card{
   background:var(--navy);
   border:2px solid var(--gold);
@@ -784,6 +985,9 @@ button{font:inherit}
   <button class="dot" data-go="8">09</button>
   <button class="dot" data-go="9">10</button>
   <button class="dot" data-go="10">11</button>
+  <button class="dot" data-go="11">12</button>
+  <button class="dot" data-go="12">13</button>
+  <button class="dot" data-go="13">14</button>
   <div class="spacer"></div>
 </nav>
 
@@ -799,10 +1003,7 @@ button{font:inherit}
     <!-- LÁMINA 01: PORTADA -->
     <section class="slide active cover">
       <div class="hero">
-        <div class="eyebrow">UNIDAD 2 · EXPOSICIÓN DE ARQUITECTURA DEL COMPUTADOR</div>
-        <div class="edition">INGENIERÍA DE SISTEMAS · VI SEMESTRE · SECCIÓN 06S-2621-D1</div>
         <h1>Diseño lógico<br>de procesadores</h1>
-        <p class="subtitle-cover">2.1. Organización del procesador y la Unidad Aritmético-Lógica (ALU)</p>
         <div class="chip-art" aria-label="Ilustración de un chip procesador">
           <div class="chip-core">CPU</div>
         </div>
@@ -812,7 +1013,10 @@ button{font:inherit}
           <span>Miguel Alejandro Ortiz Ortiz · V-31.097.869</span>
           <span>Yilbert Gabriel Torres García · V-30.991.998</span>
         </div>
-        <div class="teacher">Docente: Ing. Hervilt Zambrano</div>
+        <div class="teacher">
+          <div class="edition">INGENIERÍA DE SISTEMAS · VI SEMESTRE · SECCIÓN 06S-2621-D1</div>
+          Docente: Ing. Hervilt Zambrano
+        </div>
       </div>
     </section>
 
@@ -821,7 +1025,6 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">01 / MODELO JERÁRQUICO (TANENBAUM, 1992; HENNESSY & PATTERSON, 1995)</div>
         <h2 class="title">Tres niveles para comprender un CPU</h2>
-        <p class="sub">Selecciona cada nivel (clic o teclas 1, 2, 3) para proyectar su alcance, pregunta clave y ejemplo en el panel central.</p>
       </div>
       <div class="content" style="grid-template-rows:auto 1fr 1fr">
         <div class="grid3">
@@ -873,12 +1076,11 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">02 / DINÁMICA DE EJECUCIÓN (STALLINGS, 2004; HENNESSY & PATTERSON, 1995)</div>
         <h2 class="title">Ciclo de instrucción, buses y Pipeline</h2>
-        <p class="sub">Haz clic en cada fase del ciclo para inspeccionar las operaciones e interconexiones que intervienen.</p>
       </div>
       <div class="content" style="grid-template-rows:auto auto 1fr">
         <div class="flow">
-          <span class="stage-btn active-stage" data-st="0">1. IF<small>Fetch (Búsqueda)</small></span>
-          <span class="stage-btn" data-st="1">2. ID<small>Decode (Decodificar)</small></span>
+          <span class="stage-btn active-stage" data-st="0">1. F<small>Fetch (Búsqueda)</small></span>
+          <span class="stage-btn" data-st="1">2. D<small>Decode (Decodificar)</small></span>
           <span class="stage-btn" data-st="2">3. EX<small>Execute (Ejecución)</small></span>
           <span class="stage-btn" data-st="3">4. MEM<small>Memory (Memoria)</small></span>
           <span class="stage-btn" data-st="4">5. WB<small>Write Back (Escritura)</small></span>
@@ -886,7 +1088,7 @@ button{font:inherit}
 
         <div class="feature-spot" id="stage-spot">
           <div>
-            <h4>Etapa 1 · IF (Instruction Fetch / Búsqueda)</h4>
+            <h4>Etapa 1 · F (Fetch / Búsqueda)</h4>
             <p>El procesador obtiene la próxima instrucción desde la memoria RAM usando la dirección contenida en el Contador de Programa (PC), la carga en el registro IR e incrementa automáticamente el PC.</p>
           </div>
           <div class="feature-meta">
@@ -901,9 +1103,9 @@ button{font:inherit}
             <table class="pipe-matrix">
               <thead><tr><th>Instrucción</th><th>Ciclo 1</th><th>Ciclo 2</th><th>Ciclo 3</th><th>Ciclo 4</th><th>Ciclo 5</th><th>Ciclo 6</th></tr></thead>
               <tbody>
-                <tr><td><b>Instrucción 1</b></td><td class="st-if">IF</td><td class="st-id">ID</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td><td class="st-wb">WB</td><td>—</td></tr>
-                <tr><td><b>Instrucción 2</b></td><td>—</td><td class="st-if">IF</td><td class="st-id">ID</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td><td class="st-wb">WB</td></tr>
-                <tr><td><b>Instrucción 3</b></td><td>—</td><td>—</td><td class="st-if">IF</td><td class="st-id">ID</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td></tr>
+                <tr><td><b>Instrucción 1</b></td><td class="st-if">F</td><td class="st-id">D</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td><td class="st-wb">WB</td><td>—</td></tr>
+                <tr><td><b>Instrucción 2</b></td><td>—</td><td class="st-if">F</td><td class="st-id">D</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td><td class="st-wb">WB</td></tr>
+                <tr><td><b>Instrucción 3</b></td><td>—</td><td>—</td><td class="st-if">F</td><td class="st-id">D</td><td class="st-ex">EX (ALU)</td><td class="st-mem">MEM</td></tr>
               </tbody>
             </table>
             <p style="font-size:13px;color:var(--muted)">Superpone múltiples instrucciones simultáneamente, completando <b>1 instrucción por ciclo</b> en estado estable.</p>
@@ -969,27 +1171,22 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">04 / ARQUITECTURA COMBINACIONAL (MANO, 1994, 2005; HAYES, 2006)</div>
         <h2 class="title">Diseño lógico interno de la ALU</h2>
-        <p class="sub">Haz clic en los 3 bloques del circuito (o presiona 1, 2, 3) para analizar su estructura combinacional.</p>
       </div>
       <div class="content alu-layout">
         <div class="alu-board">
           <div class="alu-row">
-            <div class="alu-node">Operando A<br><small style="font-weight:500;color:#c9d8e9">Palabra n bits</small></div>
+            <div class="alu-node" data-alu="opA">Operando A<br><small style="font-weight:500;color:#c9d8e9">Palabra n bits</small></div>
             <div class="wire"></div>
             <div class="alu-node active" data-alu="arith">1. Circuito<br>Aritmético</div>
             <div class="wire"></div>
             <div class="alu-node" data-alu="mux">3. MUX Final<br>(Modo S2)</div>
           </div>
           <div class="alu-row">
-            <div class="alu-node">Operando B<br><small style="font-weight:500;color:#c9d8e9">Entrada MUX Y</small></div>
+            <div class="alu-node" data-alu="opB">Operando B<br><small style="font-weight:500;color:#c9d8e9">Entrada MUX Y</small></div>
             <div class="wire"></div>
             <div class="alu-node" data-alu="logic">2. Circuito<br>Lógico</div>
             <div class="wire"></div>
-            <div class="alu-node">Salida F<br><small style="font-weight:500;color:var(--gold-light)">+ Flags Z,C,N,V</small></div>
-          </div>
-          <div class="alu-out">
-            <span>Selección interna: S1, S0 y Acarreo Cin</span>
-            <span>S2 = 0 (Aritmética) · S2 = 1 (Lógica)</span>
+            <div class="alu-node" data-alu="outF">Salida F<br><small style="font-weight:500;color:var(--gold-light)">+ Flags Z,C,N,V</small></div>
           </div>
         </div>
         <div class="info-panel" id="alu-info">
@@ -1008,7 +1205,6 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">05 / TABLA DE FUNCIONES DE LA ALU (MODELO DE MORRIS MANO, 1994, 2005)</div>
         <h2 class="title">Doce microoperaciones en una misma ALU</h2>
-        <p class="sub">Filtra la tabla a la izquierda o selecciona cualquier microoperación para proyectar su vista completa a la derecha.</p>
       </div>
       <div class="content master-detail">
         <div class="left-table-col">
@@ -1063,7 +1259,6 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">06 / REGISTRO DE CONDICIÓN Y COMPONENTES (PUNTO 2.2 · MANO, 1994; ANGULO, 1994)</div>
         <h2 class="title">Banderas de estado (Flags) en la ALU</h2>
-        <p class="sub">Haz clic en cada bandera para proyectar su circuito detector y su función en los saltos condicionales.</p>
       </div>
       <div class="content" style="grid-template-rows:auto 1fr 1fr">
         <div class="flags">
@@ -1118,7 +1313,6 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">07 / EJEMPLO DE REFERENCIA 1 · CAMINO DE DATOS (STALLINGS, 2004; MANO, 1994)</div>
         <h2 class="title">Traza RTL paso a paso: ADD R1, R2</h2>
-        <p class="sub">Haz clic en los pulsos T0 a T7 para seguir la ejecución en un CPU de 8 bits con bus interno único (R1 = 5, R2 = 3).</p>
       </div>
       <div class="content" style="grid-template-rows:auto 1fr auto auto">
         <div class="timeline">
@@ -1165,7 +1359,6 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">08 / UNIDAD PROCESADORA, DESPLAZAMIENTO Y ACUMULADOR (PUNTOS 2.2 Y 2.3 · MANO, 1994)</div>
         <h2 class="title">Registro de desplazamiento y Acumulador (AC)</h2>
-        <p class="sub">Haz clic en los botones de prueba para observar cómo operan el desplazador y la lógica del acumulador.</p>
       </div>
       <div class="content" style="grid-template-rows:1fr auto">
         <div class="split">
@@ -1216,7 +1409,6 @@ button{font:inherit}
       <div class="header-box">
         <div class="eyebrow">09 / EJEMPLO DE REFERENCIA 2 · ALU DE 4 BITS Y BANDERAS (MANO, 1994, 2005)</div>
         <h2 class="title">Prueba práctica con A = 0111 (+7) y B = 0011 (+3)</h2>
-        <p class="sub">Haz clic en cualquier fila de la tabla de opciones para evaluar el circuito aritmético/lógico y las banderas a la derecha.</p>
       </div>
       <div class="content master-detail">
         <div class="table-wrap">
@@ -1256,10 +1448,237 @@ button{font:inherit}
       </div>
     </section>
 
-    <!-- LÁMINA 11: CONCLUSIÓN Y CIERRE -->
+    <!-- LÁMINA 11: EJERCICIO PRÁCTICO 1 -->
     <section class="slide">
       <div class="header-box">
-        <div class="eyebrow">10 / CONCLUSIÓN Y CIERRE DE LA EXPOSICIÓN</div>
+        <div class="eyebrow">10 / EJERCICIO PRÁCTICO 1 · CICLO DE INSTRUCCIÓN</div>
+        <h2 class="title">Llena las 4 cajas para ADD R1, R2</h2>
+      </div>
+      <div class="content" style="grid-template-rows:auto 1fr auto">
+        <div class="ex-bar">
+          <span>Datos iniciales: <code>Instrucción = ADD R1, R2</code> · <code>R1 = 5</code> · <code>R2 = 3</code></span>
+          <button class="icon-btn" id="btn-rev-ex1">Revelar todas</button>
+        </div>
+
+        <div class="ex-cards4">
+          <div class="ex-card" data-ex1="0">
+            <div>
+              <span class="step-tag">CAJA 01</span>
+              <h3>1. Fetch</h3>
+              <p class="guide-q">¿De dónde sale la instrucción y a qué registros llega?</p>
+            </div>
+            <div class="ans-box" data-q="Haz clic para revelar respuesta" data-a="Se trae la instrucción de memoria al MBR e IR">Haz clic para revelar respuesta</div>
+          </div>
+
+          <div class="ex-card" data-ex1="1">
+            <div>
+              <span class="step-tag">CAJA 02</span>
+              <h3>2. Decode</h3>
+              <p class="guide-q">¿Qué unidad interpreta el código de operación y los operandos?</p>
+            </div>
+            <div class="ans-box" data-q="Haz clic para revelar respuesta" data-a="La Unidad de Control interpreta suma con R1 y R2">Haz clic para revelar respuesta</div>
+          </div>
+
+          <div class="ex-card" data-ex1="2">
+            <div>
+              <span class="step-tag">CAJA 03</span>
+              <h3>3. Execute</h3>
+              <p class="guide-q">¿Qué calcula el circuito combinacional y por qué no lo retiene?</p>
+            </div>
+            <div class="ans-box" data-q="Haz clic para revelar respuesta" data-a="La ALU calcula R1 + R2 = 8 sin guardar nada">Haz clic para revelar respuesta</div>
+          </div>
+
+          <div class="ex-card" data-ex1="3">
+            <div>
+              <span class="step-tag">CAJA 04</span>
+              <h3>4. Write Back</h3>
+              <p class="guide-q">¿En qué registro queda almacenado finalmente el valor calculado?</p>
+            </div>
+            <div class="ans-box" data-q="Haz clic para revelar respuesta" data-a="El resultado 8 se guarda en R1">Haz clic para revelar respuesta</div>
+          </div>
+        </div>
+
+        <div class="cycle-loop-banner">
+          <div>
+            <strong>↻ Ciclo continuo sincronizado por reloj:</strong>
+            <span>Al terminar <b>4. Write Back</b>, el ciclo vuelve a empezar automáticamente en <b>1. Fetch</b> en cada pulso de reloj para la siguiente instrucción.</span>
+          </div>
+          <span class="step-tag" style="background:var(--gold);color:var(--navy);white-space:nowrap">4. Write Back → 1. Fetch</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 12: EJERCICIO PRÁCTICO 2 -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">11 / EJERCICIO PRÁCTICO 2 · REGISTROS EN LA FASE FETCH</div>
+        <h2 class="title">¿Qué hay en cada registro? PC, MAR, MBR, IR</h2>
+      </div>
+      <div class="content" style="grid-template-rows:auto 1fr auto">
+        <div class="ex-bar">
+          <span>Estado inicial: <code>PC = 20h</code> · En memoria RAM: <code>M[20h] = ADD R1, R2</code></span>
+          <button class="icon-btn" id="btn-rev-ex2">Revelar todas</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="ex-reg-table">
+            <thead>
+              <tr>
+                <th>Pulso y Microoperación RTL</th>
+                <th>PC (Contador)</th>
+                <th>MAR (Dirección)</th>
+                <th>MBR (Buffer Datos)</th>
+                <th>IR (Instrucción)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-ex2="0">
+                <td><b>T0:</b> <code>MAR ← PC</code></td>
+                <td><span class="cell-hidden" data-val="20h">?</span></td>
+                <td><span class="cell-hidden" data-val="20h">?</span></td>
+                <td><span class="cell-hidden" data-val="—">?</span></td>
+                <td><span class="cell-hidden" data-val="—">?</span></td>
+              </tr>
+              <tr data-ex2="1">
+                <td><b>T1:</b> <code>Leer M[MAR]; PC ← PC + 1</code></td>
+                <td><span class="cell-hidden" data-val="21h">?</span></td>
+                <td><span class="cell-hidden" data-val="20h">?</span></td>
+                <td><span class="cell-hidden" data-val="—">?</span></td>
+                <td><span class="cell-hidden" data-val="—">?</span></td>
+              </tr>
+              <tr data-ex2="2">
+                <td><b>T2:</b> <code>MBR ← M[MAR]</code></td>
+                <td><span class="cell-hidden" data-val="21h">?</span></td>
+                <td><span class="cell-hidden" data-val="20h">?</span></td>
+                <td><span class="cell-hidden" data-val="ADD R1, R2">?</span></td>
+                <td><span class="cell-hidden" data-val="—">?</span></td>
+              </tr>
+              <tr data-ex2="3">
+                <td><b>T3:</b> <code>IR ← MBR</code></td>
+                <td><span class="cell-hidden" data-val="21h">?</span></td>
+                <td><span class="cell-hidden" data-val="20h">?</span></td>
+                <td><span class="cell-hidden" data-val="ADD R1, R2">?</span></td>
+                <td><span class="cell-hidden" data-val="ADD R1, R2">?</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="cycle-loop-banner">
+          <div>
+            <strong>Resumen funcional de los 4 registros:</strong>
+            <span>"El <b>PC</b> señala, el <b>MAR</b> direcciona, el <b>MBR</b> trae y el <b>IR</b> guarda la instrucción en curso".</span>
+          </div>
+          <span class="step-tag" style="background:var(--gold);color:var(--navy);white-space:nowrap">PC → MAR → MBR → IR</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 13: EJERCICIO PRÁCTICO 3 -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">12 / EJERCICIO PRÁCTICO 3 · SEGMENTACIÓN DE INSTRUCCIONES</div>
+        <h2 class="title">Cuenta las columnas: Sin Pipeline vs. Con Pipeline</h2>
+      </div>
+      <div class="content" style="grid-template-rows:1fr 1fr">
+        <div class="surface" style="padding:12px 18px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <h3 style="margin:0">SIN PIPELINE (SECUENCIAL) · 3 × 5 = 15 CICLOS DE RELOJ</h3>
+            <span style="font-size:12px;font-weight:800;color:var(--navy);background:var(--gold-light);padding:3px 10px;border-radius:6px">Total: 15 columnas</span>
+          </div>
+          <table class="pipe-cmp-table">
+            <thead>
+              <tr>
+                <th>Inst.</th>
+                <th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th>
+                <th>C6</th><th>C7</th><th>C8</th><th>C9</th><th>C10</th>
+                <th>C11</th><th>C12</th><th>C13</th><th>C14</th><th>C15</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>I1</b></td>
+                <td class="st-if">F</td><td class="st-id">D</td><td class="st-ex">EX</td><td class="st-mem">MEM</td><td class="st-wb">WB</td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td><b>I2</b></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td class="st-if">F</td><td class="st-id">D</td><td class="st-ex">EX</td><td class="st-mem">MEM</td><td class="st-wb">WB</td>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td><b>I3</b></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td class="st-if">F</td><td class="st-id">D</td><td class="st-ex">EX</td><td class="st-mem">MEM</td><td class="st-wb">WB</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12.5px;color:var(--muted);margin:6px 0 0">Cada instrucción debe esperar 5 ciclos completos antes de que inicie la siguiente (unidades ociosas).</p>
+        </div>
+
+        <div class="surface gold-top" style="padding:12px 18px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <h3 style="margin:0">CON PIPELINE (SOLAPADO) · 5 + 1 + 1 = 7 CICLOS DE RELOJ</h3>
+            <span style="font-size:12px;font-weight:800;color:var(--gold-light);background:var(--navy);padding:3px 10px;border-radius:6px">Total: 7 columnas (Ahorro: 8 ciclos)</span>
+          </div>
+          <table class="pipe-cmp-table">
+            <thead>
+              <tr>
+                <th>Inst.</th>
+                <th>Ciclo 1</th>
+                <th>Ciclo 2</th>
+                <th class="hl-col" style="background:var(--gold);color:var(--navy)">★ Ciclo 3 (Paralelo)</th>
+                <th>Ciclo 4</th>
+                <th>Ciclo 5</th>
+                <th>Ciclo 6</th>
+                <th>Ciclo 7</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>I1</b></td>
+                <td class="st-if">F</td>
+                <td class="st-id">D</td>
+                <td class="st-ex hl-col">EX</td>
+                <td class="st-mem">MEM</td>
+                <td class="st-wb">WB</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><b>I2</b></td>
+                <td></td>
+                <td class="st-if">F</td>
+                <td class="st-id hl-col">D</td>
+                <td class="st-ex">EX</td>
+                <td class="st-mem">MEM</td>
+                <td class="st-wb">WB</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><b>I3</b></td>
+                <td></td>
+                <td></td>
+                <td class="st-if hl-col">F</td>
+                <td class="st-id">D</td>
+                <td class="st-ex">EX</td>
+                <td class="st-mem">MEM</td>
+                <td class="st-wb">WB</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12.5px;color:var(--ink);margin:6px 0 0"><b>En el Ciclo 3 trabajan en paralelo:</b> <code>I1</code> está en <b>EX</b> (ALU), <code>I2</code> en <b>D</b> (Unidad de Control) e <code>I3</code> en <b>F</b> (Memoria).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LÁMINA 14: CONCLUSIÓN Y CIERRE -->
+    <section class="slide">
+      <div class="header-box">
+        <div class="eyebrow">13 / CONCLUSIÓN Y CIERRE DE LA EXPOSICIÓN</div>
         <h2 class="title">Sinergia entre Organización y Diseño Lógico</h2>
         <p class="sub">Integración final de la Unidad 2: Organización del Procesador y Unidad Aritmético-Lógica (ALU).</p>
       </div>
@@ -1273,7 +1692,7 @@ button{font:inherit}
   </div>
 
   <div class="bottom">
-    <span class="time" id="counter">01 / 11</span>
+    <span class="time" id="counter">01 / 14</span>
     <div class="bar"><i id="bar"></i></div>
     <span>Navegación por teclado: Flechas ← → · Teclas 1-3 en láminas interactivas</span>
   </div>
@@ -1325,8 +1744,8 @@ document.querySelectorAll('.choice').forEach(c=>c.onclick=()=>{
 
 // Lámina 03: Etapas de ciclo / pipeline
 const stageData=[
-  ['Etapa 1 · IF (Instruction Fetch / Búsqueda)','El procesador obtiene la próxima instrucción desde la memoria RAM usando la dirección contenida en el Contador de Programa (PC), la carga en el registro IR e incrementa automáticamente el PC.','MAR ← PC · MBR ← M[MAR]<br>IR ← MBR · PC ← PC + 1'],
-  ['Etapa 2 · ID (Instruction Decode / Decodificación)','La Unidad de Control decodifica el código de operación (Opcode) alojado en el registro IR, identifica los registros fuente/destino y prepara las señales de control del camino de datos.','Decodificación de IR en Unidad de Control<br>Lectura de registros fuente (R1, R2)'],
+  ['Etapa 1 · F (Fetch / Búsqueda)','El procesador obtiene la próxima instrucción desde la memoria RAM usando la dirección contenida en el Contador de Programa (PC), la carga en el registro IR e incrementa automáticamente el PC.','MAR ← PC · MBR ← M[MAR]<br>IR ← MBR · PC ← PC + 1'],
+  ['Etapa 2 · D (Decode / Decodificación)','La Unidad de Control decodifica el código de operación (Opcode) alojado en el registro IR, identifica los registros fuente/destino y prepara las señales de control del camino de datos.','Decodificación de IR en Unidad de Control<br>Lectura de registros fuente (R1, R2)'],
   ['Etapa 3 · EX (Execute / Ejecución en la ALU)','La Unidad Aritmético-Lógica (ALU) procesa los operandos según las líneas de selección S2, S1, S0 y Cin, generando el resultado F y actualizando las banderas de estado (Z, C, N, V).','Y ← R1 · T ← Y + R2<br>Actualización de Flags (Z, C, N, V)'],
   ['Etapa 4 · MEM (Memory Access / Acceso a Datos)','Fase utilizada por instrucciones de carga o almacenamiento (LOAD / STORE) para leer o escribir palabras de datos en la memoria principal a través de MAR y MBR.','MAR ← Dirección Efectiva<br>MBR ← M[MAR]  o  M[MAR] ← MBR'],
   ['Etapa 5 · WB (Write Back / Escritura de Resultado)','El resultado final calculado por la ALU (retenido en el registro temporal T) o el dato leído de la memoria se almacena definitivamente en el registro destino.','R1 ← T  (o  AC ← Resultado)<br>Fin del ciclo de la instrucción']
@@ -1338,11 +1757,14 @@ document.querySelectorAll('.stage-btn').forEach(b=>b.onclick=()=>{
   document.getElementById('stage-spot').innerHTML=`<div><h4>${d[0]}</h4><p>${d[1]}</p></div><div class="feature-meta"><small>REGISTROS Y MICROOPERACIÓN</small><strong>${d[2]}</strong></div>`;
 });
 
-// Lámina 05: Bloques de la ALU
+// Lámina 05: Bloques de la ALU (6 cajas seleccionables)
 const aluInfo={
+  opA:['Operando A (Entrada Directa de n bits)','Representa la primera palabra binaria de entrada (proveniente de un registro de uso general, del registro temporal <code>Y</code> o del Acumulador <code>AC</code>).','Sus <i>n</i> líneas de bits ingresan de manera directa y simultánea tanto a los Sumadores Completos del circuito aritmético como a las compuertas del circuito lógico.','Entrada directa: A = A_{n-1} ... A_1 A_0<br>Conecta en paralelo con etapa Aritmética y Lógica'],
+  opB:['Operando B (Entrada a Multiplexor Y)','Representa el segundo operando binario de <i>n</i> bits (proveniente del banco de registros o del Registro de Datos <code>DR/MBR</code>).','En el circuito aritmético pasa por un <b>MUX 4:1</b> controlado por <code>S1, S0</code> que permite seleccionar entre <code>0</code>, <code>B</code>, <code>NOT(B)</code> o <code>1</code> para realizar sumas, restas, incrementos o decrementos.','Y = 0 (S1S0=00) · Y = B (S1S0=01)<br>Y = NOT B (S1S0=10) · Y = 1111 (S1S0=11)'],
   arith:['1. Circuito Aritmético (Modo S2 = 0)','Se construye encadenando <b>Sumadores Completos (Full Adders)</b> en paralelo. Delante de la entrada B de cada sumador se ubica un <b>Multiplexor 4 a 1</b> gobernado por <code>S1</code> y <code>S0</code> que elige entre <code>0</code>, <code>B</code>, <code>NOT(B)</code> o <code>1</code>.','Al combinarse con el acarreo de entrada <code>Cin</code>, el mismo circuito sumador ejecuta 8 microoperaciones aritméticas, incluyendo la resta mediante suma en <b>complemento a dos</b>.','Ecuación General: D = A + Y + Cin<br>Resta: A - B = A + NOT(B) + 1'],
   logic:['2. Circuito Lógico (Modo S2 = 1)','Opera de forma paralela e independiente para cada posición de bit <i>i</i> sin propagación de acarreos entre etapas vecinas.','Emplea un arreglo de compuertas básicas (<code>AND, OR, XOR</code> e inversor <code>NOT</code>) conectadas a las entradas A y B, cuyas salidas alimentan un MUX 4 a 1 controlado por <code>S1</code> y <code>S0</code>.','S1S0 = 00 (AND) · 01 (OR)<br>S1S0 = 10 (XOR) · 11 (NOT A)'],
-  mux:['3. Etapa de Selección Final (MUX 2:1)','Un multiplexor de 2 a 1 por cada bit de salida, gobernado por la tercera variable de selección de modo (<code>S2</code>), decide qué circuito entrega su resultado a la salida final <code>F</code> de la ALU.','Simultáneamente, las salidas alimentan las compuertas detectoras del Registro de Condición (banderas Z, C, N y V).','Si S2 = 0 → Salida Aritmética (8 funciones)<br>Si S2 = 1 → Salida Lógica (4 funciones)']
+  mux:['3. Etapa de Selección Final (MUX 2:1 · Modo S2)','Un multiplexor de 2 a 1 por cada bit de salida, gobernado por la variable de selección de modo (<code>S2</code>), decide qué circuito entrega su resultado a la salida final <code>F</code> de la ALU.','Con <code>S2 = 0</code> transfiere el resultado de los sumadores completos; con <code>S2 = 1</code> transfiere la salida de las compuertas booleanas.','Si S2 = 0 → Salida Aritmética (8 funciones)<br>Si S2 = 1 → Salida Lógica (4 funciones)'],
+  outF:['Salida F + Banderas de Estado (Z, C, N, V)','Entrega la palabra resultante de <i>n</i> bits (<code>F</code>) hacia el bus de retorno o registro temporal de salida <code>T</code>, recuerda que la ALU es combinacional y no almacena datos por sí sola.','Al mismo tiempo, los bits de <code>F</code> y los acarreos finales alimentan las compuertas detectoras que actualizan el Registro de Condición: <b>Zero (Z), Carry (C), Negative (N) y Overflow (V)</b>.','Z = NOR(F) · C = c_n<br>N = F_{n-1} · V = c_{n-1} ⊕ c_n']
 };
 document.querySelectorAll('[data-alu]').forEach(n=>n.onclick=()=>{
   document.querySelectorAll('[data-alu]').forEach(x=>x.classList.remove('active'));
@@ -1505,6 +1927,41 @@ document.querySelectorAll('.case-row').forEach(r=>r.onclick=()=>{
   document.getElementById('sim-badges').innerHTML=c.flags.map(f=>`<div class="f-badge ${f[1]?'on':''}">${f[0]}</div>`).join('');
   document.getElementById('sim-exp').innerHTML=c.exp;
 });
+
+// Lámina 11: Ejercicio Práctico 1 (4 cajas ADD R1, R2)
+const ex1Cards=[...document.querySelectorAll('.ex-card[data-ex1]')];
+const btnRevEx1=document.getElementById('btn-rev-ex1');
+function toggleEx1Card(card, forceState){
+  const rev = forceState !== undefined ? forceState : !card.classList.contains('revealed');
+  card.classList.toggle('revealed', rev);
+  const box = card.querySelector('.ans-box');
+  box.textContent = rev ? box.dataset.a : box.dataset.q;
+  const allRev = ex1Cards.every(c=>c.classList.contains('revealed'));
+  btnRevEx1.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
+}
+ex1Cards.forEach(c=>c.onclick=()=>toggleEx1Card(c));
+btnRevEx1.onclick=()=>{
+  const allRev = ex1Cards.every(c=>c.classList.contains('revealed'));
+  ex1Cards.forEach(c=>toggleEx1Card(c, !allRev));
+};
+
+// Lámina 12: Ejercicio Práctico 2 (Tabla de registros T0 a T3)
+const ex2Rows=[...document.querySelectorAll('tr[data-ex2]')];
+const btnRevEx2=document.getElementById('btn-rev-ex2');
+function toggleEx2Row(row, forceState){
+  const rev = forceState !== undefined ? forceState : !row.classList.contains('revealed-row');
+  row.classList.toggle('revealed-row', rev);
+  row.querySelectorAll('.cell-hidden').forEach(cell=>{
+    cell.textContent = rev ? cell.dataset.val : '?';
+  });
+  const allRev = ex2Rows.every(r=>r.classList.contains('revealed-row'));
+  btnRevEx2.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
+}
+ex2Rows.forEach(r=>r.onclick=()=>toggleEx2Row(r));
+btnRevEx2.onclick=()=>{
+  const allRev = ex2Rows.every(r=>r.classList.contains('revealed-row'));
+  ex2Rows.forEach(r=>toggleEx2Row(r, !allRev));
+};
 
 go(0);
 </script>
