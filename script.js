@@ -2,45 +2,50 @@ const slides = Array.from(document.querySelectorAll('.slide'));
 const dots = Array.from(document.querySelectorAll('.rail .dot'));
 const counter = document.getElementById('counter');
 const bar = document.getElementById('bar');
-let current = 0;
 
 function go(n) {
+  if (typeof window.goSlide === 'function') {
+    window.goSlide(n);
+    return;
+  }
   if (!slides.length) return;
-  current = Math.max(0, Math.min(slides.length - 1, Number(n) || 0));
+  window.curSlide = Math.max(0, Math.min(slides.length - 1, Number(n) || 0));
   slides.forEach((s, i) => {
-    const active = i === current;
+    const active = i === window.curSlide;
     s.classList.toggle('active', active);
+    s.hidden = !active;
     s.style.setProperty('display', active ? 'flex' : 'none', 'important');
   });
-  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  dots.forEach((d, i) => d.classList.toggle('active', i === window.curSlide));
   if (counter) {
-    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    counter.textContent = String(window.curSlide + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
   }
   if (bar) {
-    bar.style.width = (((current + 1) / slides.length) * 100) + '%';
+    bar.style.width = (((window.curSlide + 1) / slides.length) * 100) + '%';
   }
 }
 
 dots.forEach((d, idx) => {
-  d.addEventListener('click', () => go(d.dataset.go !== undefined ? Number(d.dataset.go) : idx));
+  d.onclick = () => go(d.dataset.go !== undefined ? Number(d.dataset.go) : idx);
 });
 
-document.getElementById('prev-btn')?.addEventListener('click', () => go(current - 1));
-document.getElementById('next-btn')?.addEventListener('click', () => go(current + 1));
+const prevBtn = document.getElementById('prev-btn');
+if (prevBtn) prevBtn.onclick = () => go((window.curSlide || 0) - 1);
+
+const nextBtn = document.getElementById('next-btn');
+if (nextBtn) nextBtn.onclick = () => go((window.curSlide || 0) + 1);
+
 document.getElementById('full')?.addEventListener('click', () => {
   if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
   else document.exitFullscreen?.();
 });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight' || e.key === 'PageDown') go(current + 1);
-  if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(current - 1);
-  if (e.key === 'Home') go(0);
-  if (e.key === 'End') go(slides.length - 1);
-  if (current === 1 && ['1', '2', '3'].includes(e.key)) {
+  const cur = window.curSlide || 0;
+  if (cur === 1 && ['1', '2', '3'].includes(e.key)) {
     document.querySelectorAll('.choice')[Number(e.key) - 1]?.click();
   }
-  if (current === 4 && ['1', '2', '3'].includes(e.key)) {
+  if (cur === 4 && ['1', '2', '3'].includes(e.key)) {
     document.querySelectorAll('[data-alu]')[Number(e.key) - 1]?.click();
   }
 });
