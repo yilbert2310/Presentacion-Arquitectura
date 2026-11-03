@@ -49,7 +49,8 @@ button {
   align-items: center;
   padding: 10px 0;
   gap: 6px;
-  z-index: 20;
+  position: relative;
+  z-index: 100;
 }
 
 .brand {
@@ -70,6 +71,7 @@ button {
   font-size: 10.5px;
   font-weight: 800;
   cursor: pointer;
+  pointer-events: auto;
   transition: 0.2s;
 }
 
@@ -163,7 +165,7 @@ button {
 }
 
 .slide.active {
-  display: flex;
+  display: flex !important;
   animation: enter 0.38s cubic-bezier(0.18, 0.8, 0.24, 1);
 }
 
@@ -1432,11 +1434,16 @@ button {
   }
 
   .slide {
+    display: none;
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
     padding: 18px 16px;
     border-radius: 14px;
+  }
+
+  .slide.active {
+    display: flex !important;
   }
 
   .content {
