@@ -1579,21 +1579,7 @@ button {
   }
 }
 
-.slide {
-  display: none !important;
-}
-
-.slide.active {
-  display: flex !important;
-}
-
-.rail {
-  position: relative;
-  z-index: 9999 !important;
-  pointer-events: auto !important;
-}
-
-.rail .dot {
-  cursor: pointer !important;
-  pointer-events: auto !important;
-}
+.slide:not(.active) { display: none !important; }
+.slide.active { display: flex !important; }
+.rail { position: relative; z-index: 9999 !important; }
+.rail .dot { cursor: pointer !important; pointer-events: auto !important; }
