@@ -694,36 +694,6 @@ try {
   console.warn(e);
 }
 
-// Lámina 12: Ejercicio Práctico 2 (Tabla de registros T0 a T3)
-try {
-  const ex2Rows = Array.from(document.querySelectorAll('tr[data-ex2]'));
-  const btnRevEx2 = document.getElementById('btn-rev-ex2');
-
-  function toggleEx2Row(row, forceState) {
-    if (!row) return;
-    const rev = forceState !== undefined ? forceState : !row.classList.contains('revealed-row');
-    row.classList.toggle('revealed-row', rev);
-    row.querySelectorAll('.cell-hidden').forEach((cell) => {
-      cell.textContent = rev ? cell.dataset.val : '?';
-    });
-    const allRev = ex2Rows.every((r) => r.classList.contains('revealed-row'));
-    if (btnRevEx2) btnRevEx2.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
-  }
-
-  ex2Rows.forEach((r) => {
-    r.addEventListener('click', () => toggleEx2Row(r));
-  });
-
-  if (btnRevEx2) {
-    btnRevEx2.addEventListener('click', () => {
-      const allRev = ex2Rows.every((r) => r.classList.contains('revealed-row'));
-      ex2Rows.forEach((r) => toggleEx2Row(r, !allRev));
-    });
-  }
-} catch (e) {
-  console.warn(e);
-}
-
 try {
   window.goSlide?.(0);
 } catch (e) {

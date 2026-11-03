@@ -23,7 +23,6 @@
         <button type="button" class="dot" data-go="10" onclick="window.goSlide(10)">11</button>
         <button type="button" class="dot" data-go="11" onclick="window.goSlide(11)">12</button>
         <button type="button" class="dot" data-go="12" onclick="window.goSlide(12)">13</button>
-        <button type="button" class="dot" data-go="13" onclick="window.goSlide(13)">14</button>
         <div class="spacer"></div>
       </nav>
 
@@ -708,72 +707,7 @@
 
           <section class="slide">
             <div class="header-box">
-              <div class="eyebrow">11 / EJERCICIO PRÁCTICO 2 · REGISTROS EN LA FASE FETCH</div>
-              <h2 class="title">¿Qué hay en cada registro? PC, MAR, MBR, IR</h2>
-            </div>
-            <div class="content" style="grid-template-rows:auto 1fr auto">
-              <div class="ex-bar">
-                <span>Estado inicial: <code>PC = 20h</code> · En memoria RAM: <code>M[20h] = ADD R1, R2</code></span>
-                <button class="icon-btn" id="btn-rev-ex2">Revelar todas</button>
-              </div>
-
-              <div class="table-wrap">
-                <table class="ex-reg-table">
-                  <thead>
-                    <tr>
-                      <th>Pulso y Microoperación RTL</th>
-                      <th>PC (Contador)</th>
-                      <th>MAR (Dirección)</th>
-                      <th>MBR (Buffer Datos)</th>
-                      <th>IR (Instrucción)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr data-ex2="0">
-                      <td><b>T0:</b> <code>MAR ← PC</code></td>
-                      <td><span class="cell-hidden" data-val="20h">?</span></td>
-                      <td><span class="cell-hidden" data-val="20h">?</span></td>
-                      <td><span class="cell-hidden" data-val="—">?</span></td>
-                      <td><span class="cell-hidden" data-val="—">?</span></td>
-                    </tr>
-                    <tr data-ex2="1">
-                      <td><b>T1:</b> <code>Leer M[MAR]; PC ← PC + 1</code></td>
-                      <td><span class="cell-hidden" data-val="21h">?</span></td>
-                      <td><span class="cell-hidden" data-val="20h">?</span></td>
-                      <td><span class="cell-hidden" data-val="—">?</span></td>
-                      <td><span class="cell-hidden" data-val="—">?</span></td>
-                    </tr>
-                    <tr data-ex2="2">
-                      <td><b>T2:</b> <code>MBR ← M[MAR]</code></td>
-                      <td><span class="cell-hidden" data-val="21h">?</span></td>
-                      <td><span class="cell-hidden" data-val="20h">?</span></td>
-                      <td><span class="cell-hidden" data-val="ADD R1, R2">?</span></td>
-                      <td><span class="cell-hidden" data-val="—">?</span></td>
-                    </tr>
-                    <tr data-ex2="3">
-                      <td><b>T3:</b> <code>IR ← MBR</code></td>
-                      <td><span class="cell-hidden" data-val="21h">?</span></td>
-                      <td><span class="cell-hidden" data-val="20h">?</span></td>
-                      <td><span class="cell-hidden" data-val="ADD R1, R2">?</span></td>
-                      <td><span class="cell-hidden" data-val="ADD R1, R2">?</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="cycle-loop-banner">
-                <div>
-                  <strong>Resumen funcional de los 4 registros:</strong>
-                  <span>"El <b>PC</b> señala, el <b>MAR</b> direcciona, el <b>MBR</b> trae y el <b>IR</b> guarda la instrucción en curso".</span>
-                </div>
-                <span class="step-tag" style="background:var(--gold);color:var(--navy);white-space:nowrap">PC → MAR → MBR → IR</span>
-              </div>
-            </div>
-          </section>
-
-          <section class="slide">
-            <div class="header-box">
-              <div class="eyebrow">12 / EJERCICIO PRÁCTICO 3 · SEGMENTACIÓN DE INSTRUCCIONES</div>
+              <div class="eyebrow">11 / EJERCICIO PRÁCTICO 2 · DEFENSA EN PIZARRA (SEGMENTACIÓN / PIPELINE)</div>
               <h2 class="title">Cuenta las columnas: Sin Pipeline vs. Con Pipeline</h2>
             </div>
             <div class="content" style="grid-template-rows:1fr 1fr">
@@ -921,7 +855,7 @@
 
           <section class="slide">
             <div class="header-box">
-              <div class="eyebrow">13 / CONCLUSIÓN Y CIERRE DE LA EXPOSICIÓN</div>
+              <div class="eyebrow">12 / CONCLUSIÓN Y CIERRE · UNIDAD 2: DISEÑO LÓGICO DE PROCESADORES</div>
               <h2 class="title">Sinergia entre Organización y Diseño Lógico</h2>
               <p class="sub">Integración final de la Unidad 2: Organización del Procesador y Unidad Aritmético-Lógica (ALU).</p>
             </div>
@@ -936,7 +870,7 @@
 
         <div class="bottom">
           <button type="button" class="icon-btn" onclick="window.goSlide((window.curSlide||0)-1)">← Anterior</button>
-          <span class="time" id="counter">01 / 14</span>
+          <span class="time" id="counter">01 / 13</span>
           <div class="bar"><i id="bar"></i></div>
           <button type="button" class="icon-btn" onclick="window.goSlide((window.curSlide||0)+1)">Siguiente →</button>
           <span>Navegación por teclado: Flechas ← → · Teclas 1-3 en láminas interactivas</span>
