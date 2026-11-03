@@ -1375,9 +1375,15 @@ button {
   color: var(--gold-light);
 }
 
+.slide:not(.active) { display: none !important; }
+.slide.active { display: flex !important; }
+.rail { position: relative; z-index: 9999 !important; }
+.rail .dot { cursor: pointer !important; pointer-events: auto !important; }
+
 @media (max-width: 960px) {
   html,
   body {
+    max-width: 100vw;
     overflow-x: hidden;
     overflow-y: auto;
     height: auto;
@@ -1386,6 +1392,9 @@ button {
   .app {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
     height: auto;
     min-height: 100vh;
   }
@@ -1393,14 +1402,16 @@ button {
   .rail {
     flex-direction: row;
     width: 100%;
+    max-width: 100vw;
     overflow-x: auto;
     padding: 10px 12px;
     border-right: none;
     border-bottom: 2px solid var(--gold);
-    position: sticky;
+    position: sticky !important;
     top: 0;
     justify-content: flex-start;
     gap: 8px;
+    z-index: 9999 !important;
   }
 
   .rail .dot {
@@ -1415,8 +1426,11 @@ button {
   }
 
   .main {
+    width: 100%;
+    max-width: 100vw;
     height: auto;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .topbar {
@@ -1425,20 +1439,27 @@ button {
     flex-wrap: wrap;
     gap: 8px;
     font-size: 11px;
+    width: 100%;
   }
 
   .stage {
-    padding: 10px 12px 75px;
+    padding: 12px 10px 96px;
+    width: 100%;
+    max-width: 100vw;
     height: auto;
     display: block;
   }
 
   .slide {
     display: none;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
     max-height: none !important;
-    overflow: visible !important;
-    padding: 18px 16px;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    padding: 18px 14px;
     border-radius: 14px;
   }
 
@@ -1446,10 +1467,32 @@ button {
     display: flex !important;
   }
 
+  .header-box {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .eyebrow {
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    line-height: 1.35;
+    overflow-wrap: break-word;
+  }
+
+  .title {
+    font-size: clamp(22px, 6vw, 30px);
+    line-height: 1.15;
+    overflow-wrap: break-word;
+  }
+
   .content {
     display: flex !important;
     flex-direction: column !important;
     gap: 14px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .grid3,
@@ -1458,38 +1501,230 @@ button {
   .alu-layout,
   .master-detail,
   .ex-cards4 {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     display: grid;
     gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .grid3 > *,
+  .split > *,
+  .feature-spot > *,
+  .alu-layout > *,
+  .master-detail > *,
+  .ex-cards4 > *,
+  .flow > *,
+  .flags > *,
+  .equiv-grid > *,
+  .reg-strip > *,
+  .timeline > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .surface,
+  .choice,
+  .feature-spot,
+  .feature-meta,
+  .info-panel,
+  .result-card,
+  .left-table-col,
+  .ex-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .surface h3,
+  .surface p,
+  .surface li,
+  .choice h3,
+  .choice p,
+  .feature-spot h4,
+  .feature-spot p,
+  .feature-meta strong,
+  .info-panel h3,
+  .info-panel p,
+  .formula,
+  .result-card .exp-box,
+  .closing-card p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .surface p,
+  .surface li,
+  .feature-spot p,
+  .info-panel p {
+    font-size: 15px;
+  }
+
+  .binary {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    padding: 8px 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    word-break: break-word;
+  }
+
+  .formula {
+    font-size: 14.5px;
+    padding: 12px;
+    margin-top: 10px;
+  }
+
+  /* Lámina 05: Diagrama interactivo de la ALU en 2 columnas sin cortes */
+  .alu-board {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 14px 12px;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  .alu-board:before {
+    inset: 8px;
+  }
+
+  .alu-row {
+    display: contents !important;
+  }
+
+  .alu-row .wire {
+    display: none !important;
+  }
+
+  .alu-node {
+    padding: 12px 8px;
+    font-size: 13.5px;
+    width: 100%;
+    min-width: 0;
+    word-break: break-word;
+  }
+
+  .alu-node.active,
+  .alu-node:hover {
+    transform: none;
+  }
+
+  /* Filtros y tablas con scroll horizontal independiente */
+  .filters {
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .filter {
+    flex: 1 1 auto;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .table-wrap {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .func-table,
+  .case-table,
+  .pipe-matrix,
+  .ex-reg-table {
+    width: 100%;
+    min-width: 500px;
+  }
+
+  .pipe-cmp-table {
+    width: 100%;
+    min-width: 580px;
+  }
+
+  .result-card .answer {
+    font-size: 28px;
+  }
+
+  .flag-badges {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px;
   }
 
   .ex-card:not(:last-child):after {
     display: none;
   }
 
+  .ex-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .ex-bar .icon-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cycle-loop-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .cycle-loop-banner .step-tag {
+    white-space: normal !important;
+  }
+
   .flow,
   .flags,
   .equiv-grid,
   .reg-strip {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px;
+    width: 100%;
+  }
+
+  .flow span:last-child,
+  .equiv-grid .eq-card:last-child,
+  .reg-strip .reg-box:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .reg-box strong {
+    font-size: 13.5px;
+    word-break: break-word;
   }
 
   .timeline {
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 6px;
+    width: 100%;
   }
 
-  .table-wrap {
-    overflow-x: auto;
+  .closing-card {
+    padding: 20px 16px;
+    gap: 12px;
+    height: auto;
   }
 
-  .func-table,
-  .case-table,
-  .pipe-matrix,
-  .ex-reg-table,
-  .pipe-cmp-table {
-    min-width: 520px;
+  .closing-card h3 {
+    font-size: 24px;
+  }
+
+  .closing-card p {
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   .cover {
@@ -1499,13 +1734,13 @@ button {
 
   .cover .hero {
     position: relative;
-    min-height: 78vh;
-    padding: 24px 18px;
+    min-height: 76vh;
+    padding: 22px 16px;
     background: linear-gradient(165deg, #0e2744 0 58%, #051120 58%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 18px;
+    gap: 16px;
   }
 
   .cover .hero:after {
@@ -1517,7 +1752,7 @@ button {
     left: auto;
     top: auto;
     height: auto;
-    font-size: clamp(34px, 8vw, 48px);
+    font-size: clamp(32px, 8vw, 46px);
     max-width: 100%;
   }
 
@@ -1525,9 +1760,9 @@ button {
     position: relative;
     right: auto;
     top: auto;
-    width: 110px;
-    height: 110px;
-    margin: 8px 0;
+    width: 104px;
+    height: 104px;
+    margin: 6px 0;
   }
 
   .cover .teacher {
@@ -1564,22 +1799,25 @@ button {
     bottom: 0;
     background: var(--navy);
     color: #fff;
-    padding: 10px 14px;
+    padding: 8px 10px;
+    gap: 8px;
     border-top: 2px solid var(--gold);
-    z-index: 50;
+    z-index: 9999;
+  }
+
+  .bottom .icon-btn {
+    padding: 7px 10px;
+    font-size: 11.5px;
+    flex-shrink: 0;
   }
 
   .bottom .time {
     color: var(--gold-light);
-    font-size: 13px;
+    font-size: 12px;
+    flex-shrink: 0;
   }
 
   .bottom span:last-child {
     display: none;
   }
 }
-
-.slide:not(.active) { display: none !important; }
-.slide.active { display: flex !important; }
-.rail { position: relative; z-index: 9999 !important; }
-.rail .dot { cursor: pointer !important; pointer-events: auto !important; }

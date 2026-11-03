@@ -132,48 +132,50 @@
               <div class="split">
                 <div class="surface">
                   <h3>PARALELISMO POR SEGMENTACIÓN (PIPELINE DE 5 ETAPAS)</h3>
-                  <table class="pipe-matrix">
-                    <thead>
-                      <tr>
-                        <th>Instrucción</th>
-                        <th>Ciclo 1</th>
-                        <th>Ciclo 2</th>
-                        <th>Ciclo 3</th>
-                        <th>Ciclo 4</th>
-                        <th>Ciclo 5</th>
-                        <th>Ciclo 6</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><b>Instrucción 1</b></td>
-                        <td class="st-if">F</td>
-                        <td class="st-id">D</td>
-                        <td class="st-ex">EX (ALU)</td>
-                        <td class="st-mem">MEM</td>
-                        <td class="st-wb">WB</td>
-                        <td>—</td>
-                      </tr>
-                      <tr>
-                        <td><b>Instrucción 2</b></td>
-                        <td>—</td>
-                        <td class="st-if">F</td>
-                        <td class="st-id">D</td>
-                        <td class="st-ex">EX (ALU)</td>
-                        <td class="st-mem">MEM</td>
-                        <td class="st-wb">WB</td>
-                      </tr>
-                      <tr>
-                        <td><b>Instrucción 3</b></td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td class="st-if">F</td>
-                        <td class="st-id">D</td>
-                        <td class="st-ex">EX (ALU)</td>
-                        <td class="st-mem">MEM</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div class="table-wrap">
+                    <table class="pipe-matrix">
+                      <thead>
+                        <tr>
+                          <th>Instrucción</th>
+                          <th>Ciclo 1</th>
+                          <th>Ciclo 2</th>
+                          <th>Ciclo 3</th>
+                          <th>Ciclo 4</th>
+                          <th>Ciclo 5</th>
+                          <th>Ciclo 6</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><b>Instrucción 1</b></td>
+                          <td class="st-if">F</td>
+                          <td class="st-id">D</td>
+                          <td class="st-ex">EX (ALU)</td>
+                          <td class="st-mem">MEM</td>
+                          <td class="st-wb">WB</td>
+                          <td>—</td>
+                        </tr>
+                        <tr>
+                          <td><b>Instrucción 2</b></td>
+                          <td>—</td>
+                          <td class="st-if">F</td>
+                          <td class="st-id">D</td>
+                          <td class="st-ex">EX (ALU)</td>
+                          <td class="st-mem">MEM</td>
+                          <td class="st-wb">WB</td>
+                        </tr>
+                        <tr>
+                          <td><b>Instrucción 3</b></td>
+                          <td>—</td>
+                          <td>—</td>
+                          <td class="st-if">F</td>
+                          <td class="st-id">D</td>
+                          <td class="st-ex">EX (ALU)</td>
+                          <td class="st-mem">MEM</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <p style="font-size:13px;color:var(--muted)">Superpone múltiples instrucciones simultáneamente, completando <b>1 instrucción por ciclo</b> en estado estable.</p>
                 </div>
                 <div class="surface gold-top">
@@ -712,142 +714,147 @@
             </div>
             <div class="content" style="grid-template-rows:1fr 1fr">
               <div class="surface" style="padding:12px 18px">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px">
                   <h3 style="margin:0">SIN PIPELINE (SECUENCIAL) · 3 × 5 = 15 CICLOS DE RELOJ</h3>
                   <span style="font-size:12px;font-weight:800;color:var(--navy);background:var(--gold-light);padding:3px 10px;border-radius:6px">Total: 15 columnas</span>
                 </div>
-                <table class="pipe-cmp-table">
-                  <thead>
-                    <tr>
-                      <th>Inst.</th>
-                      <th>C1</th>
-                      <th>C2</th>
-                      <th>C3</th>
-                      <th>C4</th>
-                      <th>C5</th>
-                      <th>C6</th>
-                      <th>C7</th>
-                      <th>C8</th>
-                      <th>C9</th>
-                      <th>C10</th>
-                      <th>C11</th>
-                      <th>C12</th>
-                      <th>C13</th>
-                      <th>C14</th>
-                      <th>C15</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><b>I1</b></td>
-                      <td class="st-if">F</td>
-                      <td class="st-id">D</td>
-                      <td class="st-ex">EX</td>
-                      <td class="st-mem">MEM</td>
-                      <td class="st-wb">WB</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td><b>I2</b></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td class="st-if">F</td>
-                      <td class="st-id">D</td>
-                      <td class="st-ex">EX</td>
-                      <td class="st-mem">MEM</td>
-                      <td class="st-wb">WB</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td><b>I3</b></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td class="st-if">F</td>
-                      <td class="st-id">D</td>
-                      <td class="st-ex">EX</td>
-                      <td class="st-mem">MEM</td>
-                      <td class="st-wb">WB</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-wrap">
+                  <table class="pipe-cmp-table">
+                    <thead>
+                      <tr>
+                        <th>Inst.</th>
+                        <th>C1</th>
+                        <th>C2</th>
+                        <th>C3</th>
+                        <th>C4</th>
+                        <th>C5</th>
+                        <th>C6</th>
+                        <th>C7</th>
+                        <th>C8</th>
+                        <th>C9</th>
+                        <th>C10</th>
+                        <th>C11</th>
+                        <th>C12</th>
+                        <th>C13</th>
+                        <th>C14</th>
+                        <th>C15</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><b>I1</b></td>
+                        <td class="st-if">F</td>
+                        <td class="st-id">D</td>
+                        <td class="st-ex">EX</td>
+                        <td class="st-mem">MEM</td>
+                        <td class="st-wb">WB</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td><b>I2</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="st-if">F</td>
+                        <td class="st-id">D</td>
+                        <td class="st-ex">EX</td>
+                        <td class="st-mem">MEM</td>
+                        <td class="st-wb">WB</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td><b>I3</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="st-if">F</td>
+                        <td class="st-id">D</td>
+                        <td class="st-ex">EX</td>
+                        <td class="st-mem">MEM</td>
+                        <td class="st-wb">WB</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <p style="font-size:12.5px;color:var(--muted);margin:6px 0 0">Cada instrucción debe esperar 5 ciclos completos antes de que inicie la siguiente (unidades ociosas).</p>
               </div>
 
               <div class="surface gold-top" style="padding:12px 18px">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px">
                   <h3 style="margin:0">CON PIPELINE (SOLAPADO) · 5 + 1 + 1 = 7 CICLOS DE RELOJ</h3>
                   <span style="font-size:12px;font-weight:800;color:var(--gold-light);background:var(--navy);padding:3px 10px;border-radius:6px">Total: 7 columnas (Ahorro: 8 ciclos)</span>
                 </div>
-                <table class="pipe-cmp-table">
-                  <thead>
-                    <tr>
-                      <th>Inst.</th>
-                      <th>Ciclo 1</th>
-                      <th>Ciclo 2</th>
-                      <th class="hl-col" style="background:var(--gold);color:var(--navy)">★ Ciclo 3 (Paralelo)</th>
-                      <th>Ciclo 4</th>
-                      <th>Ciclo 5</th>
-                      <th>Ciclo 6</th>
-                      <th>Ciclo 7</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><b>I1</b></td>
-                      <td class="st-if">F</td>
-                      <td class="st-id">D</td>
-                      <td class="st-ex hl-col">EX</td>
-                      <td class="st-mem">MEM</td>
-                      <td class="st-wb">WB</td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td><b>I2</b></td>
-                      <td></td>
-                      <td class="st-if">F</td>
-                      <td class="st-id hl-col">D</td>
-                      <td class="st-ex">EX</td>
-                      <td class="st-mem">MEM</td>
-                      <td class="st-wb">WB</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td><b>I3</b></td>
-                      <td></td>
-                      <td></td>
-                      <td class="st-if hl-col">F</td>
-                      <td class="st-id">D</td>
-                      <td class="st-ex">EX</td>
-                      <td class="st-mem">MEM</td>
-                      <td class="st-wb">WB</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-wrap">
+                  <table class="pipe-cmp-table">
+                    <thead>
+                      <tr>
+                        <th>Inst.</th>
+                        <th>Ciclo 1</th>
+                        <th>Ciclo 2</th>
+                        <th class="hl-col" style="background:var(--gold);color:var(--navy)">★ Ciclo 3 (Paralelo)</th>
+                        <th>Ciclo 4</th>
+                        <th>Ciclo 5</th>
+                        <th>Ciclo 6</th>
+                        <th>Ciclo 7</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><b>I1</b></td>
+                        <td class="st-if">F</td>
+                        <td class="st-id">D</td>
+                        <td class="st-ex hl-col">EX</td>
+                        <td class="st-mem">MEM</td>
+                        <td class="st-wb">WB</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td><b>I2</b></td>
+                        <td></td>
+                        <td></td>
+                        <td class="st-if">F</td>
+                        <td class="st-id hl-col">D</td>
+                        <td class="st-ex">EX</td>
+                        <td class="st-mem">MEM</td>
+                        <td class="st-wb">WB</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td><b>I3</b></td>
+                        <td></td>
+                        <td></td>
+                        <td class="st-if hl-col">F</td>
+                        <td class="st-id">D</td>
+                        <td class="st-ex">EX</td>
+                        <td class="st-mem">MEM</td>
+                        <td class="st-wb">WB</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <p style="font-size:12.5px;color:var(--ink);margin:6px 0 0"><b>En el Ciclo 3 trabajan en paralelo:</b> <code>I1</code> está en <b>EX</b> (ALU), <code>I2</code> en <b>D</b> (Unidad de Control) e <code>I3</code> en <b>F</b> (Memoria).</p>
               </div>
             </div>
