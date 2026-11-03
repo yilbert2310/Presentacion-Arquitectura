@@ -1,42 +1,47 @@
-const slides = [...document.querySelectorAll('.slide')];
-const dots = [...document.querySelectorAll('.dot[data-go]')];
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dots = Array.from(document.querySelectorAll('.rail .dot'));
 const counter = document.getElementById('counter');
 const bar = document.getElementById('bar');
 let current = 0;
 
 function go(n) {
-  current = Math.max(0, Math.min(slides.length - 1, n));
-  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  if (!slides.length) return;
+  current = Math.max(0, Math.min(slides.length - 1, Number(n) || 0));
+  slides.forEach((s, i) => {
+    const active = i === current;
+    s.classList.toggle('active', active);
+    s.style.setProperty('display', active ? 'flex' : 'none', 'important');
+  });
   dots.forEach((d, i) => d.classList.toggle('active', i === current));
-  counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + slides.length;
-  bar.style.width = ((current + 1) / slides.length * 100) + '%';
+  if (counter) {
+    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+  }
+  if (bar) {
+    bar.style.width = (((current + 1) / slides.length) * 100) + '%';
+  }
 }
 
-dots.forEach((d) => {
-  d.onclick = () => go(Number(d.dataset.go));
+dots.forEach((d, idx) => {
+  d.addEventListener('click', () => go(d.dataset.go !== undefined ? Number(d.dataset.go) : idx));
 });
 
-document.getElementById('prev-btn').onclick = () => go(current - 1);
-document.getElementById('next-btn').onclick = () => go(current + 1);
-
-document.getElementById('full').onclick = () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen?.();
-  } else {
-    document.exitFullscreen?.();
-  }
-};
+document.getElementById('prev-btn')?.addEventListener('click', () => go(current - 1));
+document.getElementById('next-btn')?.addEventListener('click', () => go(current + 1));
+document.getElementById('full')?.addEventListener('click', () => {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+});
 
 document.addEventListener('keydown', (e) => {
-  if (['ArrowRight', 'PageDown'].includes(e.key)) go(current + 1);
-  if (['ArrowLeft', 'PageUp'].includes(e.key)) go(current - 1);
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') go(current + 1);
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(current - 1);
   if (e.key === 'Home') go(0);
   if (e.key === 'End') go(slides.length - 1);
   if (current === 1 && ['1', '2', '3'].includes(e.key)) {
-    document.querySelectorAll('.choice')[Number(e.key) - 1].click();
+    document.querySelectorAll('.choice')[Number(e.key) - 1]?.click();
   }
   if (current === 4 && ['1', '2', '3'].includes(e.key)) {
-    document.querySelectorAll('[data-alu]')[Number(e.key) - 1].click();
+    document.querySelectorAll('[data-alu]')[Number(e.key) - 1]?.click();
   }
 });
 
@@ -59,21 +64,24 @@ const lvlData = [
 ];
 
 document.querySelectorAll('.choice').forEach((c) => {
-  c.onclick = () => {
+  c.addEventListener('click', () => {
     document.querySelectorAll('.choice').forEach((x) => x.classList.remove('selected'));
     c.classList.add('selected');
     const d = lvlData[Number(c.dataset.lvl)];
-    document.getElementById('lvl-spot').innerHTML = `
-      <div>
-        <h4>${d[0]}</h4>
-        <p>${d[1]}</p>
-      </div>
-      <div class="feature-meta">
-        <small>PREGUNTA Y EJEMPLO CLAVE</small>
-        <strong>${d[2]}</strong>
-      </div>
-    `;
-  };
+    const spot = document.getElementById('lvl-spot');
+    if (spot && d) {
+      spot.innerHTML = `
+        <div>
+          <h4>${d[0]}</h4>
+          <p>${d[1]}</p>
+        </div>
+        <div class="feature-meta">
+          <small>PREGUNTA Y EJEMPLO CLAVE</small>
+          <strong>${d[2]}</strong>
+        </div>
+      `;
+    }
+  });
 });
 
 const stageData = [
@@ -105,21 +113,24 @@ const stageData = [
 ];
 
 document.querySelectorAll('.stage-btn').forEach((b) => {
-  b.onclick = () => {
+  b.addEventListener('click', () => {
     document.querySelectorAll('.stage-btn').forEach((x) => x.classList.remove('active-stage'));
     b.classList.add('active-stage');
     const d = stageData[Number(b.dataset.st)];
-    document.getElementById('stage-spot').innerHTML = `
-      <div>
-        <h4>${d[0]}</h4>
-        <p>${d[1]}</p>
-      </div>
-      <div class="feature-meta">
-        <small>REGISTROS Y MICROOPERACIÓN</small>
-        <strong>${d[2]}</strong>
-      </div>
-    `;
-  };
+    const spot = document.getElementById('stage-spot');
+    if (spot && d) {
+      spot.innerHTML = `
+        <div>
+          <h4>${d[0]}</h4>
+          <p>${d[1]}</p>
+        </div>
+        <div class="feature-meta">
+          <small>REGISTROS Y MICROOPERACIÓN</small>
+          <strong>${d[2]}</strong>
+        </div>
+      `;
+    }
+  });
 });
 
 const aluInfo = {
@@ -162,38 +173,48 @@ const aluInfo = {
 };
 
 document.querySelectorAll('[data-alu]').forEach((n) => {
-  n.onclick = () => {
+  n.addEventListener('click', () => {
     document.querySelectorAll('[data-alu]').forEach((x) => x.classList.remove('active'));
     n.classList.add('active');
     const d = aluInfo[n.dataset.alu];
-    document.getElementById('alu-info').innerHTML = `
-      <div>
-        <h3>${d[0]}</h3>
-        <p>${d[1]}</p>
-        <p style="margin-top:8px">${d[2]}</p>
-      </div>
-      <div class="formula">${d[3]}</div>
-    `;
-  };
+    const panel = document.getElementById('alu-info');
+    if (panel && d) {
+      panel.innerHTML = `
+        <div>
+          <h3>${d[0]}</h3>
+          <p>${d[1]}</p>
+          <p style="margin-top:8px">${d[2]}</p>
+        </div>
+        <div class="formula">${d[3]}</div>
+      `;
+    }
+  });
 });
 
 function selectOpRow(r) {
+  if (!r) return;
   document.querySelectorAll('.func-table tbody tr').forEach((x) => x.classList.remove('selected-row'));
   r.classList.add('selected-row');
-  document.getElementById('op-card-title').textContent = 'MICROOPERACIÓN · S2S1S0 = ' + r.dataset.code;
-  document.getElementById('op-card-f').textContent = r.dataset.f;
-  document.getElementById('op-card-name').textContent = r.dataset.name;
-  document.getElementById('op-card-cin').textContent = 'Cin = ' + r.dataset.cin;
-  document.getElementById('op-card-y').textContent = r.dataset.y;
-  document.getElementById('op-card-desc').textContent = r.dataset.desc;
+  const title = document.getElementById('op-card-title');
+  const f = document.getElementById('op-card-f');
+  const name = document.getElementById('op-card-name');
+  const cin = document.getElementById('op-card-cin');
+  const y = document.getElementById('op-card-y');
+  const desc = document.getElementById('op-card-desc');
+  if (title) title.textContent = 'MICROOPERACIÓN · S2S1S0 = ' + r.dataset.code;
+  if (f) f.textContent = r.dataset.f;
+  if (name) name.textContent = r.dataset.name;
+  if (cin) cin.textContent = 'Cin = ' + r.dataset.cin;
+  if (y) y.textContent = r.dataset.y;
+  if (desc) desc.textContent = r.dataset.desc;
 }
 
 document.querySelectorAll('.func-table tbody tr').forEach((r) => {
-  r.onclick = () => selectOpRow(r);
+  r.addEventListener('click', () => selectOpRow(r));
 });
 
 document.querySelectorAll('.filter').forEach((f) => {
-  f.onclick = () => {
+  f.addEventListener('click', () => {
     document.querySelectorAll('.filter').forEach((x) => x.classList.remove('active'));
     f.classList.add('active');
     const fam = f.dataset.filter;
@@ -204,7 +225,7 @@ document.querySelectorAll('.filter').forEach((f) => {
       if (show && !firstVisible) firstVisible = r;
     });
     if (firstVisible) selectOpRow(firstVisible);
-  };
+  });
 });
 
 const flagData = {
@@ -231,21 +252,24 @@ const flagData = {
 };
 
 document.querySelectorAll('.flag').forEach((f) => {
-  f.onclick = () => {
+  f.addEventListener('click', () => {
     document.querySelectorAll('.flag').forEach((x) => x.classList.remove('active'));
     f.classList.add('active');
     const d = flagData[f.dataset.flag];
-    document.getElementById('flag-spot').innerHTML = `
-      <div>
-        <h4>${d[0]}</h4>
-        <p>${d[1]}</p>
-      </div>
-      <div class="feature-meta">
-        <small>ECUACIÓN Y CIRCUITO DETECTOR</small>
-        <strong>${d[2]}</strong>
-      </div>
-    `;
-  };
+    const spot = document.getElementById('flag-spot');
+    if (spot && d) {
+      spot.innerHTML = `
+        <div>
+          <h4>${d[0]}</h4>
+          <p>${d[1]}</p>
+        </div>
+        <div class="feature-meta">
+          <small>ECUACIÓN Y CIRCUITO DETECTOR</small>
+          <strong>${d[2]}</strong>
+        </div>
+      `;
+    }
+  });
 });
 
 const steps = [
@@ -348,28 +372,39 @@ const steps = [
 ];
 
 document.querySelectorAll('.step').forEach((s) => {
-  s.onclick = () => {
+  s.addEventListener('click', () => {
     document.querySelectorAll('.step').forEach((x) => x.classList.remove('active'));
     s.classList.add('active');
     const d = steps[Number(s.dataset.step)];
-    document.getElementById('step-spot').innerHTML = `
-      <div>
-        <h4>${d[0]}</h4>
-        <p>${d[1]}</p>
-      </div>
-      <div class="feature-meta">
-        <small>ESTADO DEL BUS INTERNO</small>
-        <strong>${d[2]}</strong>
-      </div>
-    `;
-    document.getElementById('r-pc').textContent = d[3];
-    document.getElementById('r-mar').textContent = d[4];
-    document.getElementById('r-mbr').textContent = d[5];
-    document.getElementById('r-ir').textContent = d[6];
-    document.getElementById('r-r1').textContent = d[7];
-    document.getElementById('r-y').textContent = d[8];
-    document.getElementById('r-t').textContent = d[9];
-  };
+    if (!d) return;
+    const spot = document.getElementById('step-spot');
+    if (spot) {
+      spot.innerHTML = `
+        <div>
+          <h4>${d[0]}</h4>
+          <p>${d[1]}</p>
+        </div>
+        <div class="feature-meta">
+          <small>ESTADO DEL BUS INTERNO</small>
+          <strong>${d[2]}</strong>
+        </div>
+      `;
+    }
+    const rPc = document.getElementById('r-pc');
+    const rMar = document.getElementById('r-mar');
+    const rMbr = document.getElementById('r-mbr');
+    const rIr = document.getElementById('r-ir');
+    const rR1 = document.getElementById('r-r1');
+    const rY = document.getElementById('r-y');
+    const rT = document.getElementById('r-t');
+    if (rPc) rPc.textContent = d[3];
+    if (rMar) rMar.textContent = d[4];
+    if (rMbr) rMbr.textContent = d[5];
+    if (rIr) rIr.textContent = d[6];
+    if (rR1) rR1.textContent = d[7];
+    if (rY) rY.textContent = d[8];
+    if (rT) rT.textContent = d[9];
+  });
 });
 
 const shOps = {
@@ -394,22 +429,27 @@ const shOps = {
 };
 
 document.querySelectorAll('[data-sh]').forEach((b) => {
-  b.onclick = () => {
+  b.addEventListener('click', () => {
     document.querySelectorAll('[data-sh]').forEach((x) => x.classList.remove('active'));
     b.classList.add('active');
     const d = shOps[b.dataset.sh];
-    document.getElementById('shift-display').textContent = d[0];
-    document.getElementById('sh-ac-spot').innerHTML = `
-      <div>
-        <h4>${d[1]}</h4>
-        <p>${d[2]}</p>
-      </div>
-      <div class="feature-meta">
-        <small>EXPRESIÓN RTL</small>
-        <strong>${d[3]}</strong>
-      </div>
-    `;
-  };
+    if (!d) return;
+    const disp = document.getElementById('shift-display');
+    const spot = document.getElementById('sh-ac-spot');
+    if (disp) disp.textContent = d[0];
+    if (spot) {
+      spot.innerHTML = `
+        <div>
+          <h4>${d[1]}</h4>
+          <p>${d[2]}</p>
+        </div>
+        <div class="feature-meta">
+          <small>EXPRESIÓN RTL</small>
+          <strong>${d[3]}</strong>
+        </div>
+      `;
+    }
+  });
 });
 
 const acOps = {
@@ -440,22 +480,27 @@ const acOps = {
 };
 
 document.querySelectorAll('[data-ac]').forEach((b) => {
-  b.onclick = () => {
+  b.addEventListener('click', () => {
     document.querySelectorAll('[data-ac]').forEach((x) => x.classList.remove('active'));
     b.classList.add('active');
     const d = acOps[b.dataset.ac];
-    document.getElementById('ac-display').textContent = d[0];
-    document.getElementById('sh-ac-spot').innerHTML = `
-      <div>
-        <h4>${d[1]}</h4>
-        <p>${d[2]}</p>
-      </div>
-      <div class="feature-meta">
-        <small>EXPRESIÓN RTL</small>
-        <strong>${d[3]}</strong>
-      </div>
-    `;
-  };
+    if (!d) return;
+    const disp = document.getElementById('ac-display');
+    const spot = document.getElementById('sh-ac-spot');
+    if (disp) disp.textContent = d[0];
+    if (spot) {
+      spot.innerHTML = `
+        <div>
+          <h4>${d[1]}</h4>
+          <p>${d[2]}</p>
+        </div>
+        <div class="feature-meta">
+          <small>EXPRESIÓN RTL</small>
+          <strong>${d[3]}</strong>
+        </div>
+      `;
+    }
+  });
 });
 
 const aluCases = [
@@ -546,62 +591,71 @@ const aluCases = [
 ];
 
 document.querySelectorAll('.case-row').forEach((r) => {
-  r.onclick = () => {
+  r.addEventListener('click', () => {
     document.querySelectorAll('.case-row').forEach((x) => x.classList.remove('active-case'));
     r.classList.add('active-case');
     const c = aluCases[Number(r.dataset.idx)];
-    document.getElementById('sim-op-title').textContent = c.title;
-    document.getElementById('sim-answer').textContent = c.ans;
-    document.getElementById('sim-carries').innerHTML = c.carries;
-    document.getElementById('sim-badges').innerHTML = c.flags
-      .map((f) => `<div class="f-badge ${f[1] ? 'on' : ''}">${f[0]}</div>`)
-      .join('');
-    document.getElementById('sim-exp').innerHTML = c.exp;
-  };
+    if (!c) return;
+    const title = document.getElementById('sim-op-title');
+    const ans = document.getElementById('sim-answer');
+    const carries = document.getElementById('sim-carries');
+    const badges = document.getElementById('sim-badges');
+    const exp = document.getElementById('sim-exp');
+    if (title) title.textContent = c.title;
+    if (ans) ans.textContent = c.ans;
+    if (carries) carries.innerHTML = c.carries;
+    if (badges) {
+      badges.innerHTML = c.flags
+        .map((f) => `<div class="f-badge ${f[1] ? 'on' : ''}">${f[0]}</div>`)
+        .join('');
+    }
+    if (exp) exp.innerHTML = c.exp;
+  });
 });
 
-const ex1Cards = [...document.querySelectorAll('.ex-card[data-ex1]')];
+const ex1Cards = Array.from(document.querySelectorAll('.ex-card[data-ex1]'));
 const btnRevEx1 = document.getElementById('btn-rev-ex1');
 
 function toggleEx1Card(card, forceState) {
+  if (!card) return;
   const rev = forceState !== undefined ? forceState : !card.classList.contains('revealed');
   card.classList.toggle('revealed', rev);
   const box = card.querySelector('.ans-box');
-  box.textContent = rev ? box.dataset.a : box.dataset.q;
+  if (box) box.textContent = rev ? box.dataset.a : box.dataset.q;
   const allRev = ex1Cards.every((c) => c.classList.contains('revealed'));
-  btnRevEx1.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
+  if (btnRevEx1) btnRevEx1.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
 }
 
 ex1Cards.forEach((c) => {
-  c.onclick = () => toggleEx1Card(c);
+  c.addEventListener('click', () => toggleEx1Card(c));
 });
 
-btnRevEx1.onclick = () => {
+btnRevEx1?.addEventListener('click', () => {
   const allRev = ex1Cards.every((c) => c.classList.contains('revealed'));
   ex1Cards.forEach((c) => toggleEx1Card(c, !allRev));
-};
+});
 
-const ex2Rows = [...document.querySelectorAll('tr[data-ex2]')];
+const ex2Rows = Array.from(document.querySelectorAll('tr[data-ex2]'));
 const btnRevEx2 = document.getElementById('btn-rev-ex2');
 
 function toggleEx2Row(row, forceState) {
+  if (!row) return;
   const rev = forceState !== undefined ? forceState : !row.classList.contains('revealed-row');
   row.classList.toggle('revealed-row', rev);
   row.querySelectorAll('.cell-hidden').forEach((cell) => {
     cell.textContent = rev ? cell.dataset.val : '?';
   });
   const allRev = ex2Rows.every((r) => r.classList.contains('revealed-row'));
-  btnRevEx2.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
+  if (btnRevEx2) btnRevEx2.textContent = allRev ? 'Ocultar todas' : 'Revelar todas';
 }
 
 ex2Rows.forEach((r) => {
-  r.onclick = () => toggleEx2Row(r);
+  r.addEventListener('click', () => toggleEx2Row(r));
 });
 
-btnRevEx2.onclick = () => {
+btnRevEx2?.addEventListener('click', () => {
   const allRev = ex2Rows.every((r) => r.classList.contains('revealed-row'));
   ex2Rows.forEach((r) => toggleEx2Row(r, !allRev));
-};
+});
 
 go(0);
-
